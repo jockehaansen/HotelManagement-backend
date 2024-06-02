@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class AddressController {
 
     @PostMapping("/create")
-    void createBokning(){
+    void createAddress(){
 
     }
 
@@ -22,8 +22,8 @@ public class AddressController {
 
     }
 
-    @GetMapping("/all")
-    void getAllRooms(){
+    @GetMapping("")
+    void getAllAddresses(){
 
     }
 }

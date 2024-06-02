@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @PostMapping("/create")
-    void createBokning(){
+    void createCustomer(){
 
     }
 
@@ -21,8 +21,8 @@ public class CustomerController {
 
     }
 
-    @GetMapping("/all")
-    void getAllRooms(){
+    @GetMapping("")
+    void getAllCustomers(){
 
     }
 }

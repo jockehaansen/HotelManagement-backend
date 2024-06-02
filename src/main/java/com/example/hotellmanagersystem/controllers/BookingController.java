@@ -22,8 +22,8 @@ public class BookingController {
 
     }
 
-    @GetMapping("/all")
-    void getAllRooms(){
+    @GetMapping("")
+    void getAllBookings(){
 
     }
 }

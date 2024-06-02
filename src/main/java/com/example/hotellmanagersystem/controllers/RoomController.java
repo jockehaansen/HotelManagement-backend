@@ -16,7 +16,7 @@ public class RoomController {
     private RoomService roomService;
 
     @PostMapping("/create")
-    void createBokning(){
+    void createRoom(){
 
     }
 
@@ -30,7 +30,7 @@ public class RoomController {
 
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     List<Room> getAllRooms(){
         return roomService.getAllRooms();
     }
