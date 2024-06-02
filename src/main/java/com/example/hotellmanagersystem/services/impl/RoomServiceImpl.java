@@ -3,29 +3,27 @@ package com.example.hotellmanagersystem.services.impl;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
-    @Autowired
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
 
     @Override
     public void createRoom() {
-
     }
 
     @Override
     public void updateRoom() {
-
     }
 
     @Override
-    public void deleteRoom() {
-
+    public void deleteRoomById(Long id) {
+        roomRepository.deleteById(id);
     }
 
     @Override

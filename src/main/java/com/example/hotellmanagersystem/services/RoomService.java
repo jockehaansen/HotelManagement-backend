@@ -7,6 +7,6 @@ import java.util.List;
 public interface RoomService {
     void createRoom();
     void updateRoom();
-    void deleteRoom();
+    void deleteRoomById(Long id);
     List<Room> getAllRooms();
 }

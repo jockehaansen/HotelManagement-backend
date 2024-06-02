@@ -1,27 +1,32 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.repositories.BookingRepository;
 import com.example.hotellmanagersystem.services.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private final BookingRepository bookingRepository;
+
     @Override
-    public void createRoom() {
+    public void createBooking() {
 
     }
 
     @Override
-    public void updateRoom() {
+    public void updateBooking() {
 
     }
 
     @Override
-    public void deleteRoom() {
+    public void deleteBooking() {
 
     }
 
     @Override
-    public void getAllRooms() {
+    public void getAllBookings() {
 
     }
 }
