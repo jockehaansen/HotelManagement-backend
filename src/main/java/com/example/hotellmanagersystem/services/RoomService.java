@@ -5,8 +5,8 @@ import com.example.hotellmanagersystem.models.Room;
 import java.util.List;
 
 public interface RoomService {
-    void createRoom();
-    void updateRoom();
+    Room createRoom(Room room);
+    Room updateRoom(Room room);
     void deleteRoomById(Long id);
     List<Room> getAllRooms();
 }

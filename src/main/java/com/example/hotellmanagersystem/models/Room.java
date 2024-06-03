@@ -3,6 +3,7 @@ package com.example.hotellmanagersystem.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,5 +49,9 @@ public class Room {
     public void setBeds(int beds) {
         this.beds = beds;
         setBasePrice(); // Automatically set the price when beds are set
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.created = LocalDate.now();
     }
 }
