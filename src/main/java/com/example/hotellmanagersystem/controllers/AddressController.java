@@ -1,9 +1,8 @@
 package com.example.hotellmanagersystem.controllers;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/address")
 public class AddressController {
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/rooms")
 public class RoomController {
 
@@ -31,7 +31,7 @@ public class RoomController {
     }
 
     @GetMapping("")
-    List<Room> getAllRooms(){
+    public List<Room> getAllRooms(){
         return roomService.getAllRooms();
     }
 
