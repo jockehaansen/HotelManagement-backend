@@ -53,6 +53,11 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAll();
     }
 
+    @Override
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id).orElseThrow(() -> new InvalidRoomIDException("Error, room id " + id + " was not found"));
+    }
+
     //DTO HANDLING
     @Override
     public List<BasicRoomDTO> getAllRoomsAsBasicDTO() {
@@ -70,11 +75,13 @@ public class RoomServiceImpl implements RoomService {
         return room.getBeds() <= 4 && room.getBeds() > 0;
     }
 
-    private BasicRoomDTO roomToBasicRoomDTO(Room room){
+    @Override
+    public BasicRoomDTO roomToBasicRoomDTO(Room room){
         return BasicRoomDTO.builder().roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice()).beds(room.getBeds()).build();
     }
 
-    private DetailedRoomDTO roomToDetailedRoomDTO(Room room){
+    @Override
+    public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
         return DetailedRoomDTO.builder().id(room.getId()).roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice())
                 .beds(room.getBeds()).created(room.getCreated()).lastUpdated(room.getLastUpdated()).build();
     }

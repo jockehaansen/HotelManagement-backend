@@ -16,6 +16,11 @@ public class RoomController {
 
     private final RoomService roomService;
 
+    @GetMapping("")
+    public List<Room> getAllRooms(){
+        return roomService.getAllRooms();
+    }
+
     @PostMapping("/create")
     Room createRoom(@RequestBody Room room){
         return roomService.createRoom(room);
@@ -31,9 +36,14 @@ public class RoomController {
         return roomService.updateRoom(room);
     }
 
-    @GetMapping("")
-    public List<Room> getAllRooms(){
-        return roomService.getAllRooms();
+    @GetMapping("/room/{id}")
+    BasicRoomDTO getRoom(@PathVariable Long id){
+        return roomService.roomToBasicRoomDTO(roomService.getRoomById(id));
+    }
+
+    @GetMapping("/room/{id}/detailed")
+    DetailedRoomDTO getDetailedRoom(@PathVariable Long id){
+        return roomService.roomToDetailedRoomDTO(roomService.getRoomById(id));
     }
 
     @GetMapping("/basic")
