@@ -19,10 +19,21 @@ public class Customer {
     private UUID id;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
+    private String email;
 
-    @ManyToOne
+    @ManyToOne()
     private Address address;
 
     @OneToMany
     private List<Booking> bookings;
+
+    public Customer(String firstName, String lastName, String phoneNumber, String email, Address address, List<Booking> bookings) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.bookings = bookings;
+    }
 }

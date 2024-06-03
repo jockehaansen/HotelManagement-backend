@@ -1,10 +1,14 @@
 package com.example.hotellmanagersystem.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity(name = "customerAddress")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     @Id

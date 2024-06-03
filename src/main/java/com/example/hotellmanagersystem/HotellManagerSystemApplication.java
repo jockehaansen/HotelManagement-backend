@@ -1,7 +1,11 @@
 package com.example.hotellmanagersystem;
 
+import com.example.hotellmanagersystem.models.Address;
+import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.models.Room;
+import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.BookingRepository;
+import com.example.hotellmanagersystem.repositories.CustomerRepository;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +26,7 @@ public class HotellManagerSystemApplication {
     }
 
     @Bean
-    public CommandLineRunner enter(RoomRepository roomRepository, BookingRepository bookingRepository) {
+    public CommandLineRunner enter(RoomRepository roomRepository, BookingRepository bookingRepository, AddressRepository addressRepository, CustomerRepository customerRepository) {
         Random random = new Random();
 
         return args -> {
@@ -34,6 +38,15 @@ public class HotellManagerSystemApplication {
                 room.setCreated(LocalDate.now());
                 roomRepository.save(room);
             }
+            Address address = new Address(1L, "Tallkrogsvägen", "99", "12260", "Enskede", "Sweden");
+            addressRepository.save(address);
+            Customer customer = new Customer();
+            customer.setAddress(address);
+            customer.setFirstName("Joakim");
+            customer.setLastName("Hansen");
+            customer.setPhoneNumber("070-1234567");
+            customer.setEmail("example@email.com");
+            customerRepository.save(customer);
         };
 
     }

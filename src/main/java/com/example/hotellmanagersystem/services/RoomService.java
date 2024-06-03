@@ -9,7 +9,7 @@ import java.util.List;
 public interface RoomService {
     Room createRoom(Room room);
     Room updateRoom(Room room);
-    void deleteRoomById(Long id);
+    String deleteRoomById(Long id);
     List<Room> getAllRooms();
     Room getRoomById(Long id);
 

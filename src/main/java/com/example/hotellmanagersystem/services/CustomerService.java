@@ -1,12 +1,26 @@
 package com.example.hotellmanagersystem.services;
 
+import com.example.hotellmanagersystem.DTO.Basic.BasicCustomerDTO;
+import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.models.Customer;
 
 import java.util.List;
 
 public interface CustomerService {
-    void createCustomer();
-    void updateCustomer();
-    void deleteCustomer();
+    Customer createCustomer(Customer customer);
+    Customer updateCustomer(Customer customer);
+    String deleteCustomerByEmail(String email);
     List<Customer> getAllCustomers();
+
+    Customer getCustomerByEmail();
+    BasicCustomerDTO getBasicCustomerDTOByEmail();
+    DetailedCustomerDTO getDetailedCustomerDTOByEmail();
+
+
+    //DTO HANDLING
+    BasicCustomerDTO customerToBasicCustomerDTO(Customer customer);
+    DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer);
+
+    List<BasicCustomerDTO> getAllCustomersAsBasicDTO();
+    List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO();
 }

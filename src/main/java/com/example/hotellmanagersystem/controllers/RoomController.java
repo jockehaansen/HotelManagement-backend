@@ -27,8 +27,8 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{id}")
-    void deleteRoom(@PathVariable Long id){
-
+    String deleteRoom(@PathVariable Long id){
+        return roomService.deleteRoomById(id);
     }
 
     @PutMapping("/update")

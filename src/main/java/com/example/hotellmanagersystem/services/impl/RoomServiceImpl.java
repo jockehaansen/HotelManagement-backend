@@ -5,8 +5,8 @@ import com.example.hotellmanagersystem.DTO.Detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.RoomService;
+import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidRoomAttributesException;
-import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidRoomIDException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room updateRoom(Room room) {
         Room roomToBeUpdated = roomRepository.findById(room.getId())
-                .orElseThrow(() -> new InvalidRoomIDException("Error, room id " + room.getId() + " was not found"));
+                .orElseThrow(() -> new InvalidIDException("Error, room id " + room.getId() + " was not found"));
         if (isRoomAttributesOK(room)) {
             roomToBeUpdated.setRoomNumber(room.getRoomNumber());
             roomToBeUpdated.setBeds(room.getBeds());
@@ -44,8 +44,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteRoomById(Long id) {
-        roomRepository.deleteById(id);
+    public String deleteRoomById(Long id) {
+            Room room = roomRepository.findById(id).orElseThrow(() -> new InvalidIDException("Error, room id " + id + " was not found"));
+            roomRepository.delete(room);
+            return "Room with id " + id + " has been deleted successfully";
     }
 
     @Override
@@ -55,24 +57,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoomById(Long id) {
-        return roomRepository.findById(id).orElseThrow(() -> new InvalidRoomIDException("Error, room id " + id + " was not found"));
+        return roomRepository.findById(id).orElseThrow(() -> new InvalidIDException("Error, room id " + id + " was not found"));
     }
 
     //DTO HANDLING
     @Override
     public List<BasicRoomDTO> getAllRoomsAsBasicDTO() {
         return roomRepository.findAll().stream().map(this::roomToBasicRoomDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<DetailedRoomDTO> getAllRoomsAsDetailedDTO() {
-        return roomRepository.findAll().stream().map(this::roomToDetailedRoomDTO).collect(Collectors.toList());
-    }
-
-    //UTILITY
-    private boolean isRoomAttributesOK(Room room){
-        //check for room attributes to be correct before saving or updating
-        return room.getBeds() <= 4 && room.getBeds() > 0;
     }
 
     @Override
@@ -84,6 +75,16 @@ public class RoomServiceImpl implements RoomService {
     public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
         return DetailedRoomDTO.builder().id(room.getId()).roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice())
                 .beds(room.getBeds()).created(room.getCreated()).lastUpdated(room.getLastUpdated()).build();
+    }
+
+    @Override
+    public List<DetailedRoomDTO> getAllRoomsAsDetailedDTO() {
+        return roomRepository.findAll().stream().map(this::roomToDetailedRoomDTO).collect(Collectors.toList());
+    }
+
+    //UTILITY
+    private boolean isRoomAttributesOK(Room room){
+        return room.getBeds() <= 4 && room.getBeds() > 0;
     }
 
 }
