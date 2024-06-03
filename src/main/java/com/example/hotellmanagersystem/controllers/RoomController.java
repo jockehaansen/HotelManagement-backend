@@ -1,18 +1,20 @@
 package com.example.hotellmanagersystem.controllers;
 
+import com.example.hotellmanagersystem.DTO.Basic.BasicRoomDTO;
+import com.example.hotellmanagersystem.DTO.Detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.services.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/rooms")
 public class RoomController {
 
-    @Autowired
-    private RoomService roomService;
+    private final RoomService roomService;
 
     @PostMapping("/create")
     Room createRoom(@RequestBody Room room){
@@ -32,6 +34,16 @@ public class RoomController {
     @GetMapping("")
     public List<Room> getAllRooms(){
         return roomService.getAllRooms();
+    }
+
+    @GetMapping("/basic")
+    public List<BasicRoomDTO> getAllBasicRoomDTOs(){
+        return roomService.getAllRoomsAsBasicDTO();
+    }
+
+    @GetMapping("/detailed")
+    public List<DetailedRoomDTO> getAllDetailedRoomDTOs(){
+        return roomService.getAllRoomsAsDetailedDTO();
     }
 
 }

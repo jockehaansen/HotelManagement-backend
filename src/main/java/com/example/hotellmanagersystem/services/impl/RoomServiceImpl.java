@@ -1,5 +1,7 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.DTO.Basic.BasicRoomDTO;
+import com.example.hotellmanagersystem.DTO.Detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.RoomService;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +53,30 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAll();
     }
 
-    //check for room attributes to be correct before saving it
+    //DTO HANDLING
+    @Override
+    public List<BasicRoomDTO> getAllRoomsAsBasicDTO() {
+        return roomRepository.findAll().stream().map(this::roomToBasicRoomDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DetailedRoomDTO> getAllRoomsAsDetailedDTO() {
+        return roomRepository.findAll().stream().map(this::roomToDetailedRoomDTO).collect(Collectors.toList());
+    }
+
+    //UTILITY
     private boolean isRoomAttributesOK(Room room){
+        //check for room attributes to be correct before saving or updating
         return room.getBeds() <= 4 && room.getBeds() > 0;
     }
+
+    private BasicRoomDTO roomToBasicRoomDTO(Room room){
+        return BasicRoomDTO.builder().roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice()).beds(room.getBeds()).build();
+    }
+
+    private DetailedRoomDTO roomToDetailedRoomDTO(Room room){
+        return DetailedRoomDTO.builder().id(room.getId()).roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice())
+                .beds(room.getBeds()).created(room.getCreated()).lastUpdated(room.getLastUpdated()).build();
+    }
+
 }
