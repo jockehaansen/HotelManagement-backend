@@ -22,7 +22,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{email}")
-    String deleteByEmail(@PathVariable String email){
+    String deleteCustomerByEmail(@PathVariable String email){
         return customerService.deleteCustomerByEmail(email);
     }
 
