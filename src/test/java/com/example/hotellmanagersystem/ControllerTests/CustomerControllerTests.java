@@ -82,8 +82,18 @@ public class CustomerControllerTests {
     }
 
     @Test
-    void deleteCustomerByEmail_shouldReturnString_customerFound(){
-        //TODO
+    @WithMockUser
+    void deleteCustomerByEmail_shouldReturnString_customerFound() throws Exception {
+        Customer customer = new Customer();
+        customer.setEmail("example@email.com");
+        String expectedResponse = "Customer with email " + customer.getEmail() + " has been deleted successfully";
+
+        when(customerRepository.findAll()).thenReturn(List.of(customer));
+        when(customerService.deleteCustomerByEmail(customer.getEmail())).thenReturn(expectedResponse);
+
+        mockMvc.perform(delete("/customers/delete/{email}", customer.getEmail()).with(csrf()))
+                        .andExpect(status().isOk())
+                        .andExpect(content().string(expectedResponse));
     }
 
     @Test
