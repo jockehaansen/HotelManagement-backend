@@ -17,9 +17,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .anyRequest().permitAll()
                 )
-//                                .oauth2Login(oauth2 -> oauth2
-//                        .userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(userAuthoritiesMapper()))
-//                )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")
