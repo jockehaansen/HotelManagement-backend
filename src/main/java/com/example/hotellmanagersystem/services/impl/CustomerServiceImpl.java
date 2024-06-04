@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         //TODO logic to validate the customer fields
         Customer customerToBeUpdated = customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(customer.getEmail())).findFirst()
                 .orElseThrow(() -> new InvalidEmailException("Customer with email \" + email + \" was not found"));
-        BeanUtils.copyProperties(customer, customerToBeUpdated, "id");
+        BeanUtils.copyProperties(customer, customerToBeUpdated, "id, created");
         customerRepository.save(customerToBeUpdated);
         return customerToBeUpdated;
     }
@@ -101,7 +101,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     //UTILITY
-    private boolean isCustomerFieldsValid(Customer customer){
+    @Override
+    public boolean isCustomerFieldsValid(Customer customer){
         //TODO add logic to this function
         return true;
     }

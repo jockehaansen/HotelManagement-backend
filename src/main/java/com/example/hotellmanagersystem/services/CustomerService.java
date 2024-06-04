@@ -23,4 +23,7 @@ public interface CustomerService {
 
     List<BasicCustomerDTO> getAllCustomersAsBasicDTO();
     List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO();
+
+    //UTILITY
+    boolean isCustomerFieldsValid(Customer customer);
 }
