@@ -61,18 +61,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerByEmail() {
-        return null;
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(email)).findFirst()
+                .orElseThrow(() -> new InvalidEmailException("Customer with email " + email + " was not found"));
     }
 
     @Override
-    public BasicCustomerDTO getBasicCustomerDTOByEmail() {
-        return null;
+    public BasicCustomerDTO getBasicCustomerDTOByEmail(String email) {
+        return customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(email)).findFirst()
+                .map(this::customerToBasicCustomerDTO).orElseThrow(() -> new InvalidEmailException("Customer with email " + email + " was not found"));
     }
 
     @Override
-    public DetailedCustomerDTO getDetailedCustomerDTOByEmail() {
-        return null;
+    public DetailedCustomerDTO getDetailedCustomerDTOByEmail(String email) {
+        return customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(email)).findFirst()
+                .map(this::customerToDetailedCustomerDTO).orElseThrow(() -> new InvalidEmailException("Customer with email " + email + " was not found"));
     }
 
     //DTO HANDLING
@@ -92,14 +95,23 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll().stream().map(this::customerToBasicCustomerDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO() {
+        return customerRepository.findAll().stream().map(this::customerToDetailedCustomerDTO).collect(Collectors.toList());
+    }
+
     //UTILITY
     private boolean isCustomerFieldsValid(Customer customer){
         //TODO add logic to this function
         return true;
     }
 
-    @Override
-    public List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO() {
-        return customerRepository.findAll().stream().map(this::customerToDetailedCustomerDTO).collect(Collectors.toList());
+    private void validatePhoneNumber(){
+        //TODO create logic
     }
+
+    private void validateEmail(){
+        //TODO create logic
+    }
+
 }

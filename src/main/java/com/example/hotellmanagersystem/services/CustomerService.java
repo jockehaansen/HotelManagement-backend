@@ -12,9 +12,9 @@ public interface CustomerService {
     String deleteCustomerByEmail(String email);
     List<Customer> getAllCustomers();
 
-    Customer getCustomerByEmail();
-    BasicCustomerDTO getBasicCustomerDTOByEmail();
-    DetailedCustomerDTO getDetailedCustomerDTOByEmail();
+    Customer getCustomerByEmail(String email);
+    BasicCustomerDTO getBasicCustomerDTOByEmail(String email);
+    DetailedCustomerDTO getDetailedCustomerDTOByEmail(String email);
 
 
     //DTO HANDLING

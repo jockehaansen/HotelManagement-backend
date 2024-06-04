@@ -47,7 +47,17 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{email}")
-    Customer getCustomer(){
-        return new Customer();
+    Customer getCustomer(@PathVariable String email){
+        return customerService.getCustomerByEmail(email);
+    }
+
+    @GetMapping("/customer/{email}/basic")
+    BasicCustomerDTO getCustomerAsBasicDTO(@PathVariable String email){
+        return customerService.getBasicCustomerDTOByEmail(email);
+    }
+
+    @GetMapping("/customer/{email}/detailed")
+    DetailedCustomerDTO getCustomerAsDetailedDTO(@PathVariable String email){
+        return customerService.getDetailedCustomerDTOByEmail(email);
     }
 }
