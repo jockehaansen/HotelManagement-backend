@@ -29,20 +29,17 @@ public class CustomerServiceImpl implements CustomerService {
             //TODO logic to check if the address already exists, and use that in that case instead of creating a new one
             addressRepository.save(customer.getAddress());
             return customerRepository.save(customer);
-        } else {
-            throw new InvalidCustomerAttributesException("Error, customer attributes not valid");
-        }
+        } else throw new InvalidCustomerAttributesException("Error, customer attributes not valid");
     }
 
     @Transactional
     @Override
     public Customer updateCustomer(Customer customer) {
-        //TODO logic to validate the customer fields
+        //TODO logic to validate the incoming customer fields
         Customer customerToBeUpdated = customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(customer.getEmail())).findFirst()
                 .orElseThrow(() -> new InvalidEmailException("Customer with email \" + email + \" was not found"));
         BeanUtils.copyProperties(customer, customerToBeUpdated, "id, created");
-        customerRepository.save(customerToBeUpdated);
-        return customerToBeUpdated;
+        return customerRepository.save(customerToBeUpdated);
     }
 
     @Transactional

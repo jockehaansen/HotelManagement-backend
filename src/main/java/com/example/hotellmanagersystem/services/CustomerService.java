@@ -10,17 +10,16 @@ public interface CustomerService {
     Customer createCustomer(Customer customer);
     Customer updateCustomer(Customer customer);
     String deleteCustomerByEmail(String email);
+    Customer getCustomerByEmail(String email);
     List<Customer> getAllCustomers();
 
-    Customer getCustomerByEmail(String email);
-    BasicCustomerDTO getBasicCustomerDTOByEmail(String email);
-    DetailedCustomerDTO getDetailedCustomerDTOByEmail(String email);
 
 
     //DTO HANDLING
+    BasicCustomerDTO getBasicCustomerDTOByEmail(String email);
+    DetailedCustomerDTO getDetailedCustomerDTOByEmail(String email);
     BasicCustomerDTO customerToBasicCustomerDTO(Customer customer);
     DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer);
-
     List<BasicCustomerDTO> getAllCustomersAsBasicDTO();
     List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO();
 
