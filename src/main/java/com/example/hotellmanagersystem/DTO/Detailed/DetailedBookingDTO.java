@@ -1,21 +1,21 @@
-package com.example.hotellmanagersystem.models;
+package com.example.hotellmanagersystem.DTO.Detailed;
 
-import jakarta.persistence.*;
+import com.example.hotellmanagersystem.models.Customer;
+import com.example.hotellmanagersystem.models.Room;
+import com.example.hotellmanagersystem.models.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Booking {
-
-    @Id
-    @GeneratedValue
+public class DetailedBookingDTO {
     private Long id;
     private Long bookingNumber;
     private LocalDate startDate;
@@ -23,13 +23,7 @@ public class Booking {
     private double totalPrice;
     private LocalDate created;
     private LocalDate lastUpdated;
-
-    @ManyToOne
     private User updatedBy;
-
-    @ManyToOne
     private Customer customer;
-
-    @OneToMany
     private List<Room> rooms;
 }
