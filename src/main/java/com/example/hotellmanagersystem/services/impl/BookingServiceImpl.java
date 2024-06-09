@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookings() {
-        return null;
+        return bookingRepository.findAll();
     }
 
     //DTO HANDLING
