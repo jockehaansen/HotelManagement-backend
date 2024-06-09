@@ -18,7 +18,7 @@ import java.util.List;
 public class BasicBookingDTO {
     private Long bookingNumber;
     private LocalDate startDate;
-    private Local endDate;
+    private LocalDate endDate;
     private double totalPrice;
     private Customer customer;
     private List<Room> rooms;

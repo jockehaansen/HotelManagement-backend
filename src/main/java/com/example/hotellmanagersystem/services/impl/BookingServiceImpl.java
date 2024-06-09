@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,21 +44,24 @@ public class BookingServiceImpl implements BookingService {
     //DTO HANDLING
     @Override
     public BasicBookingDTO bookingToBasicBookingDTO(Booking booking) {
-        return null;
+        return BasicBookingDTO.builder().startDate(booking.getStartDate()).endDate(booking.getEndDate())
+                .bookingNumber(booking.getBookingNumber()).customer(booking.getCustomer()).rooms(booking.getRooms()).totalPrice(booking.getTotalPrice()).build();
     }
 
     @Override
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
-        return null;
+        return DetailedBookingDTO.builder().bookingNumber(booking.getBookingNumber()).created(booking.getCreated())
+                .id(booking.getId()).endDate(booking.getEndDate()).startDate(booking.getStartDate()).lastUpdated(booking.getLastUpdated())
+                .customer(booking.getCustomer()).updatedBy(booking.getUpdatedBy()).rooms(booking.getRooms()).totalPrice(booking.getTotalPrice()).build();
     }
 
     @Override
     public List<BasicBookingDTO> getAllBookingsAsBasicDTO() {
-        return null;
+        return bookingRepository.findAll().stream().map(this::bookingToBasicBookingDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<DetailedBookingDTO> getAllBookingsAsDetailedDTO() {
-        return null;
+        return bookingRepository.findAll().stream().map(this::bookingToDetailedBookingDTO).collect(Collectors.toList());
     }
 }
