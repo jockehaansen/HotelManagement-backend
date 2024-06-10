@@ -13,8 +13,6 @@ public interface CustomerService {
     Customer getCustomerByEmail(String email);
     List<Customer> getAllCustomers();
 
-
-
     //DTO HANDLING
     BasicCustomerDTO getBasicCustomerDTOByEmail(String email);
     DetailedCustomerDTO getDetailedCustomerDTOByEmail(String email);

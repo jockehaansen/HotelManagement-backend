@@ -1,6 +1,7 @@
 package com.example.hotellmanagersystem;
 
 import com.example.hotellmanagersystem.models.Address;
+import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
@@ -47,6 +49,8 @@ public class HotellManagerSystemApplication {
             customer.setPhoneNumber("070-1234567");
             customer.setEmail("example@email.com");
             customerRepository.save(customer);
+            Booking booking = new Booking(LocalDate.now(), LocalDate.now().plusDays(2), 2000, LocalDate.now(), customer, List.of(roomRepository.findById(1L).orElse(null)));
+            bookingRepository.save(booking);
         };
 
     }
