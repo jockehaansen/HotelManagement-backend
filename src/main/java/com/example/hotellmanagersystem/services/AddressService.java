@@ -24,4 +24,5 @@ public interface AddressService {
 
     //UTILITY
     boolean isAddressFieldsValid(Address address);
+    boolean isAddressAlreadyInDatabase(Address address);
 }

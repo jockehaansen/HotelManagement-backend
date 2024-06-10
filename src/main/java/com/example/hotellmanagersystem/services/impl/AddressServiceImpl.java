@@ -2,10 +2,10 @@ package com.example.hotellmanagersystem.services.impl;
 
 import com.example.hotellmanagersystem.DTO.Basic.BasicAddressDTO;
 import com.example.hotellmanagersystem.DTO.Detailed.DetailedAddressDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.models.Address;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.services.AddressService;
+import com.example.hotellmanagersystem.utilities.exceptionHandlers.EntityAlreadyExistsException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidAddressAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address createAddress(Address address) {
-        //TODO logic to see if the address already exists in the database
-        if (isAddressFieldsValid(address)){
+        if (isAddressAlreadyInDatabase(address)){
+            throw new EntityAlreadyExistsException("Error, address already exist. No new address was created");
+        } else if (isAddressFieldsValid(address)){
             return addressRepository.save(address);
         } else throw new InvalidAddressAttributesException("Error, address attributes not valid");
     }
@@ -69,13 +70,13 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public BasicAddressDTO addressToBasicAddressDTO(Address address) {
-        return BasicAddressDTO.builder().streetName(address.getStreetName()).number(address.getNumber()).postCode(address.getPostCode()).build();
+        return BasicAddressDTO.builder().streetName(address.getStreet()).number(address.getNumber()).postCode(address.getZipCode()).build();
     }
 
     @Override
     public DetailedAddressDTO addressToDetailedAddressDTO(Address address) {
-        return DetailedAddressDTO.builder().id(address.getId()).streetName(address.getStreetName()).number(address.getNumber())
-                .postCode(address.getPostCode()).state(address.getState()).country(address.getCountry()).build();
+        return DetailedAddressDTO.builder().id(address.getId()).streetName(address.getStreet()).number(address.getNumber())
+                .postCode(address.getZipCode()).city(address.getCity()).country(address.getCountry()).build();
     }
 
     @Override
@@ -93,5 +94,10 @@ public class AddressServiceImpl implements AddressService {
     public boolean isAddressFieldsValid(Address address) {
         //TODO logic to check the address fields are valid
         return true;
+    }
+
+    @Override
+    public boolean isAddressAlreadyInDatabase(Address address){
+        return addressRepository.existsByStreetAndCityAndZipCodeAndNumber(address.getStreet(), address.getCity(), address.getZipCode(), address.getNumber());
     }
 }

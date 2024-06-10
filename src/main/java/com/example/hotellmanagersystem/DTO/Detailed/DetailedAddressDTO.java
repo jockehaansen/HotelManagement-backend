@@ -14,6 +14,6 @@ public class DetailedAddressDTO {
     private String streetName;
     private String number;
     private String postCode;
-    private String state;
+    private String city;
     private String country;
 }

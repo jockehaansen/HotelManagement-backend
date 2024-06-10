@@ -4,4 +4,5 @@ import com.example.hotellmanagersystem.models.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
+    boolean existsByStreetAndCityAndZipCodeAndNumber(String street, String City, String zipCode, String number);
 }
