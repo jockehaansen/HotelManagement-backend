@@ -13,6 +13,7 @@ import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailE
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
-    private final AddressService addressService;
-    private final BookingService bookingService;
+    private final ModelMapper modelMapper;
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -82,24 +82,22 @@ public class CustomerServiceImpl implements CustomerService {
     //DTO HANDLING
     @Override
     public BasicCustomerDTO customerToBasicCustomerDTO(Customer customer) {
-        return BasicCustomerDTO.builder().firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber()).email(customer.getEmail()).address(addressService.addressToBasicAddressDTO(customer.getAddress())).build();
+        return modelMapper.map(customer, BasicCustomerDTO.class);
     }
 
     @Override
     public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
-        //TODO addressDTO och bookingDTO should be built in when made
-        return DetailedCustomerDTO.builder().id(customer.getId()).firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber())
-                .email(customer.getEmail()).address(addressService.addressToDetailedAddressDTO(customer.getAddress())).bookings(customer.getBookings().stream().map(bookingService::bookingToDetailedBookingDTO).collect(Collectors.toList())).build();
+        return modelMapper.map(customer, DetailedCustomerDTO.class);
     }
 
     @Override
     public List<BasicCustomerDTO> getAllCustomersAsBasicDTO() {
-        return customerRepository.findAll().stream().map(this::customerToBasicCustomerDTO).collect(Collectors.toList());
+        return customerRepository.findAll().stream().map(this::customerToBasicCustomerDTO).toList();
     }
 
     @Override
     public List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO() {
-        return customerRepository.findAll().stream().map(this::customerToDetailedCustomerDTO).collect(Collectors.toList());
+        return customerRepository.findAll().stream().map(this::customerToDetailedCustomerDTO).toList();
     }
 
     //UTILITY

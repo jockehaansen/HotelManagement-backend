@@ -8,6 +8,7 @@ import com.example.hotellmanagersystem.services.RoomService;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidRoomAttributesException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Room createRoom(Room room) {
@@ -31,6 +33,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room updateRoom(Room room) {
+        //TODO copyproperties bean??
         Room roomToBeUpdated = roomRepository.findById(room.getId())
                 .orElseThrow(() -> new InvalidIDException("Error, room id " + room.getId() + " was not found"));
         if (isRoomAttributesOK(room)) {
@@ -63,23 +66,22 @@ public class RoomServiceImpl implements RoomService {
     //DTO HANDLING
     @Override
     public List<BasicRoomDTO> getAllRoomsAsBasicDTO() {
-        return roomRepository.findAll().stream().map(this::roomToBasicRoomDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public BasicRoomDTO roomToBasicRoomDTO(Room room){
-        return BasicRoomDTO.builder().roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice()).beds(room.getBeds()).build();
-    }
-
-    @Override
-    public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
-        return DetailedRoomDTO.builder().id(room.getId()).roomNumber(room.getRoomNumber()).basePrice(room.getBasePrice())
-                .beds(room.getBeds()).created(room.getCreated()).lastUpdated(room.getLastUpdated()).build();
+        return roomRepository.findAll().stream().map(this::roomToBasicRoomDTO).toList();
     }
 
     @Override
     public List<DetailedRoomDTO> getAllRoomsAsDetailedDTO() {
-        return roomRepository.findAll().stream().map(this::roomToDetailedRoomDTO).collect(Collectors.toList());
+        return roomRepository.findAll().stream().map(this::roomToDetailedRoomDTO).toList();
+    }
+
+    @Override
+    public BasicRoomDTO roomToBasicRoomDTO(Room room){
+        return modelMapper.map(room, BasicRoomDTO.class);
+    }
+
+    @Override
+    public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
+        return modelMapper.map(room, DetailedRoomDTO.class);
     }
 
     //UTILITY

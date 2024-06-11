@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity(name = "customerAddress")
 @NoArgsConstructor
@@ -37,6 +39,9 @@ public class Address {
     @Size(max = 255, message = "Country cannot be longer than 255 characters")
     private String country;
 
-    //TODO created and lastUpdated and lastUpdatedBy should be implemented
+    private LocalDate created;
+    private LocalDate lastUpdated;
 
+    @OneToOne
+    private User lastUpdatedBy;
 }

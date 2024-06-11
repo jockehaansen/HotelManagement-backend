@@ -9,6 +9,7 @@ import com.example.hotellmanagersystem.utilities.exceptionHandlers.EntityAlready
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidAddressAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Address createAddress(Address address) {
@@ -70,23 +72,22 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public BasicAddressDTO addressToBasicAddressDTO(Address address) {
-        return BasicAddressDTO.builder().streetName(address.getStreet()).number(address.getNumber()).postCode(address.getZipCode()).build();
+        return modelMapper.map(address, BasicAddressDTO.class);
     }
 
     @Override
     public DetailedAddressDTO addressToDetailedAddressDTO(Address address) {
-        return DetailedAddressDTO.builder().id(address.getId()).streetName(address.getStreet()).number(address.getNumber())
-                .postCode(address.getZipCode()).city(address.getCity()).country(address.getCountry()).build();
+        return modelMapper.map(address, DetailedAddressDTO.class);
     }
 
     @Override
     public List<BasicAddressDTO> getAllAddressesAsBasicDTO() {
-        return addressRepository.findAll().stream().map(this::addressToBasicAddressDTO).collect(Collectors.toList());
+        return addressRepository.findAll().stream().map(this::addressToBasicAddressDTO).toList();
     }
 
     @Override
     public List<DetailedAddressDTO> getAllAddressesAsDetailedDTO() {
-        return addressRepository.findAll().stream().map(this::addressToDetailedAddressDTO).collect(Collectors.toList());
+        return addressRepository.findAll().stream().map(this::addressToDetailedAddressDTO).toList();
     }
 
     //UTILITY

@@ -40,7 +40,7 @@ public class HotellManagerSystemApplication {
                 room.setCreated(LocalDate.now());
                 roomRepository.save(room);
             }
-            Address address = new Address(1L, "Tallkrogsvägen", "99", "12260", "Enskede", "Sweden");
+            Address address = new Address(1L, "Tallkrogsvägen", "99", "12260", "Enskede", "Sweden", LocalDate.now(), null, null);
             addressRepository.save(address);
             Customer customer = new Customer();
             customer.setAddress(address);

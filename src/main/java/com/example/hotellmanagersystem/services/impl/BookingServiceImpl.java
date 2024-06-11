@@ -8,7 +8,9 @@ import com.example.hotellmanagersystem.services.BookingService;
 import com.example.hotellmanagersystem.services.CustomerService;
 import com.example.hotellmanagersystem.services.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerService customerService;
     private final RoomService roomService;
-
+    private final ModelMapper modelMapper;
     @Override
     public Booking createBooking(Booking booking) {
         return  null;
@@ -48,24 +50,21 @@ public class BookingServiceImpl implements BookingService {
     //DTO HANDLING
     @Override
     public BasicBookingDTO bookingToBasicBookingDTO(Booking booking) {
-        return BasicBookingDTO.builder().startDate(booking.getStartDate()).endDate(booking.getEndDate())
-                .bookingNumber(booking.getBookingNumber()).customer(customerService.customerToBasicCustomerDTO(booking.getCustomer())).rooms(booking.getRooms().stream().map(roomService::roomToBasicRoomDTO).collect(Collectors.toList())).totalPrice(booking.getTotalPrice()).build();
+        return modelMapper.map(booking, BasicBookingDTO.class);
     }
 
     @Override
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
-        return DetailedBookingDTO.builder().bookingNumber(booking.getBookingNumber()).created(booking.getCreated())
-                .id(booking.getId()).endDate(booking.getEndDate()).startDate(booking.getStartDate()).lastUpdated(booking.getLastUpdated())
-                .customer(booking.getCustomer()).updatedBy(booking.getUpdatedBy()).rooms(booking.getRooms()).totalPrice(booking.getTotalPrice()).build();
+        return modelMapper.map(booking, DetailedBookingDTO.class);
     }
 
     @Override
     public List<BasicBookingDTO> getAllBookingsAsBasicDTO() {
-        return bookingRepository.findAll().stream().map(this::bookingToBasicBookingDTO).collect(Collectors.toList());
+        return bookingRepository.findAll().stream().map(this::bookingToBasicBookingDTO).toList();
     }
 
     @Override
     public List<DetailedBookingDTO> getAllBookingsAsDetailedDTO() {
-        return bookingRepository.findAll().stream().map(this::bookingToDetailedBookingDTO).collect(Collectors.toList());
+        return bookingRepository.findAll().stream().map(this::bookingToDetailedBookingDTO).toList();
     }
 }
