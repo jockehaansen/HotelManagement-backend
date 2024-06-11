@@ -14,5 +14,5 @@ public class BasicCustomerDTO {
     private String lastName;
     private String phoneNumber;
     private String email;
-    //TODO private BasicAddressDTO address;
+    private BasicAddressDTO address;
 }

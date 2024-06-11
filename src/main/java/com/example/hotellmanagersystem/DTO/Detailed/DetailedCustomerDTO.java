@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -17,6 +18,6 @@ public class DetailedCustomerDTO {
     private String lastName;
     private String phoneNumber;
     private String email;
-    //TODO private DetailedAddressDTO address;
-    //TODO private List<DetailedBookingDTO> bookings;
+    private DetailedAddressDTO address;
+    private List<DetailedBookingDTO> bookings;
 }

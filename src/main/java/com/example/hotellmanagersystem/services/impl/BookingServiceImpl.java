@@ -5,6 +5,8 @@ import com.example.hotellmanagersystem.DTO.Detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.repositories.BookingRepository;
 import com.example.hotellmanagersystem.services.BookingService;
+import com.example.hotellmanagersystem.services.CustomerService;
+import com.example.hotellmanagersystem.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
+    private final CustomerService customerService;
+    private final RoomService roomService;
 
     @Override
     public Booking createBooking(Booking booking) {
@@ -45,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BasicBookingDTO bookingToBasicBookingDTO(Booking booking) {
         return BasicBookingDTO.builder().startDate(booking.getStartDate()).endDate(booking.getEndDate())
-                .bookingNumber(booking.getBookingNumber()).customer(booking.getCustomer()).rooms(booking.getRooms()).totalPrice(booking.getTotalPrice()).build();
+                .bookingNumber(booking.getBookingNumber()).customer(customerService.customerToBasicCustomerDTO(booking.getCustomer())).rooms(booking.getRooms().stream().map(roomService::roomToBasicRoomDTO).collect(Collectors.toList())).totalPrice(booking.getTotalPrice()).build();
     }
 
     @Override

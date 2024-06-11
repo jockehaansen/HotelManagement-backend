@@ -20,6 +20,6 @@ public class BasicBookingDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private double totalPrice;
-    private Customer customer;
-    private List<Room> rooms;
+    private BasicCustomerDTO customer;
+    private List<BasicRoomDTO> rooms;
 }

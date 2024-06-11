@@ -5,6 +5,8 @@ import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
+import com.example.hotellmanagersystem.services.AddressService;
+import com.example.hotellmanagersystem.services.BookingService;
 import com.example.hotellmanagersystem.services.CustomerService;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidCustomerAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final AddressService addressService;
+    private final BookingService bookingService;
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -78,13 +82,14 @@ public class CustomerServiceImpl implements CustomerService {
     //DTO HANDLING
     @Override
     public BasicCustomerDTO customerToBasicCustomerDTO(Customer customer) {
-        return BasicCustomerDTO.builder().firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber()).email(customer.getEmail()).build();
+        return BasicCustomerDTO.builder().firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber()).email(customer.getEmail()).address(addressService.addressToBasicAddressDTO(customer.getAddress())).build();
     }
 
     @Override
     public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
         //TODO addressDTO och bookingDTO should be built in when made
-        return DetailedCustomerDTO.builder().id(customer.getId()).firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber()).email(customer.getEmail()).build();
+        return DetailedCustomerDTO.builder().id(customer.getId()).firstName(customer.getFirstName()).lastName(customer.getLastName()).phoneNumber(customer.getPhoneNumber())
+                .email(customer.getEmail()).address(addressService.addressToDetailedAddressDTO(customer.getAddress())).bookings(customer.getBookings().stream().map(bookingService::bookingToDetailedBookingDTO).collect(Collectors.toList())).build();
     }
 
     @Override

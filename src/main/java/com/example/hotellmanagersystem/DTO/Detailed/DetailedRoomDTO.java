@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.DTO.Detailed;
 
+import com.example.hotellmanagersystem.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +20,5 @@ public class DetailedRoomDTO {
 
     private LocalDate created;
     private LocalDate lastUpdated;
-    //private User lastUpdatedBy;
+    private User lastUpdatedBy;
 }
