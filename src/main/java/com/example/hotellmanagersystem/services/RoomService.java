@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.services;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicRoomDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedRoomDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 
 import java.util.List;

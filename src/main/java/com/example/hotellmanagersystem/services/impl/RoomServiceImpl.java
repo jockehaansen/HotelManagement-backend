@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.services.impl;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicRoomDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedRoomDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.RoomService;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

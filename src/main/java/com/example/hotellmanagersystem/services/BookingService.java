@@ -1,10 +1,9 @@
 package com.example.hotellmanagersystem.services;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicBookingDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedBookingDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.models.Booking;
 
-import java.awt.print.Book;
 import java.util.List;
 
 public interface BookingService {

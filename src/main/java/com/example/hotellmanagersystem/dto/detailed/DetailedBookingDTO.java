@@ -1,4 +1,4 @@
-package com.example.hotellmanagersystem.DTO.Detailed;
+package com.example.hotellmanagersystem.dto.detailed;
 
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.models.Room;

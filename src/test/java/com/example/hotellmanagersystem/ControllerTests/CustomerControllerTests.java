@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.ControllerTests;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicCustomerDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.controllers.CustomerController;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;

@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.controllers;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicAddressDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedAddressDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
 import com.example.hotellmanagersystem.models.Address;
 import com.example.hotellmanagersystem.services.AddressService;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidAddressAttributesException;

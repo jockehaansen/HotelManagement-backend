@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.controllers;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicBookingDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedBookingDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.services.BookingService;
 import lombok.RequiredArgsConstructor;

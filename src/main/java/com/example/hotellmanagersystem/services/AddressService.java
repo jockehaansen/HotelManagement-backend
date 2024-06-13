@@ -1,8 +1,7 @@
 package com.example.hotellmanagersystem.services;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicAddressDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedAddressDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
 import com.example.hotellmanagersystem.models.Address;
 
 import java.util.List;

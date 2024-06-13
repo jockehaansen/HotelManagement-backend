@@ -1,12 +1,10 @@
 package com.example.hotellmanagersystem.services.impl;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicCustomerDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedCustomerDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
-import com.example.hotellmanagersystem.services.AddressService;
-import com.example.hotellmanagersystem.services.BookingService;
 import com.example.hotellmanagersystem.services.CustomerService;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidCustomerAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
@@ -18,7 +16,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

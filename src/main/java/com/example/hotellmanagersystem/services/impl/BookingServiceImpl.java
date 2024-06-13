@@ -1,7 +1,7 @@
 package com.example.hotellmanagersystem.services.impl;
 
-import com.example.hotellmanagersystem.DTO.Basic.BasicBookingDTO;
-import com.example.hotellmanagersystem.DTO.Detailed.DetailedBookingDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.repositories.BookingRepository;
 import com.example.hotellmanagersystem.services.BookingService;
@@ -10,10 +10,8 @@ import com.example.hotellmanagersystem.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

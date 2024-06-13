@@ -1,18 +1,23 @@
-package com.example.hotellmanagersystem.DTO.Basic;
+package com.example.hotellmanagersystem.dto.detailed;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.UUID;
+
 @Builder
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BasicCustomerDTO {
+@NoArgsConstructor
+public class DetailedCustomerDTO {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
-    private BasicAddressDTO address;
+    private DetailedAddressDTO address;
+    private List<DetailedBookingDTO> bookings;
 }
