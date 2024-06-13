@@ -7,8 +7,8 @@ import com.example.hotellmanagersystem.models.Booking;
 import java.util.List;
 
 public interface BookingService {
-    Booking createBooking(Booking booking);
-    Booking updateBooking(Booking booking);
+    DetailedBookingDTO createBooking(DetailedBookingDTO booking);
+    DetailedBookingDTO updateBooking(DetailedBookingDTO booking);
     String deleteBookingById(Long id);
     String deleteBookingByBookingNumber(Long bookingNumber);
     List<Booking> getAllBookings();

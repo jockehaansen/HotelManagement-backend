@@ -55,7 +55,7 @@ public class Booking {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany
+    @ManyToMany
     @NotEmpty(message = "Rooms is required")
     private List<Room> rooms;
 

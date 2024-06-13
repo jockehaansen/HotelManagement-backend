@@ -32,7 +32,7 @@ public class AddressController {
 
     @Transactional
     @PutMapping("/update")
-    public Address updateAddress(@Valid @RequestBody Address address){
+    public Address updateAddress(@Valid @RequestBody DetailedAddressDTO address){
         return addressService.updateAddress(address);
     }
 

@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,13 +32,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address updateAddress(Address address) {
-        //TODO logic to validate the incoming address fields
+    public Address updateAddress(DetailedAddressDTO address) {
         Address addressToBeUpdated = addressRepository.findById(address.getId())
                 .orElseThrow(() -> new InvalidIDException("Error, address with id " + address.getId() + " was not found"));
         BeanUtils.copyProperties(address, addressToBeUpdated, "id, created");
-        //TODO implement and set updated
-        return addressRepository.save(address);
+        addressToBeUpdated.setLastUpdated(LocalDate.now());
+        return addressRepository.save(addressToBeUpdated);
     }
 
     @Override

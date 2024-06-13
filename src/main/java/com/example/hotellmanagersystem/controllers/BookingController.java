@@ -17,19 +17,22 @@ import java.util.List;
 public class BookingController {
     private final BookingService bookingService;
 
+    @Transactional
     @PostMapping("/create")
-    void createBokning(){
-
+    public DetailedBookingDTO createBokning(@Valid @RequestBody DetailedBookingDTO booking){
+        return bookingService.createBooking(booking);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{id}")
-    void deleteById(@PathVariable Long id){
-
+    public String deleteById(@PathVariable Long id){
+        return bookingService.deleteBookingById(id);
     }
 
+    @Transactional
     @PutMapping("/update")
-    void updateBooking(@RequestBody Booking booking){
-
+    public DetailedBookingDTO updateBooking(@Valid @RequestBody DetailedBookingDTO booking){
+        return bookingService.updateBooking(booking);
     }
 
     @GetMapping("")
