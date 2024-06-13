@@ -1,9 +1,8 @@
 package com.example.hotellmanagersystem.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,26 @@ public class Room {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotEmpty(message = "Room number is required")
     private int roomNumber;
+
+    @NotEmpty(message = "Base price is required")
     private double basePrice;
+
+    @NotEmpty(message = "Beds is required")
+    @Size(min = 1, max = 4, message = "Beds has to be between 1 and 4")
     private int beds;
 
+    @NotEmpty(message = "Created is required")
+    @Basic
     private LocalDate created;
+
+    @Basic
     private LocalDate lastUpdated;
-    //private User lastUpdatedBy;
+
+    @ManyToOne
+    private User lastUpdatedBy;
 
     private void setBasePrice() {
         switch (beds) {
@@ -53,5 +65,12 @@ public class Room {
     @PrePersist
     protected void onCreate() {
         this.created = LocalDate.now();
+    }
+
+    public Room(int roomNumber, double basePrice, int beds, LocalDate created) {
+        this.roomNumber = roomNumber;
+        this.basePrice = basePrice;
+        this.beds = beds;
+        this.created = created;
     }
 }

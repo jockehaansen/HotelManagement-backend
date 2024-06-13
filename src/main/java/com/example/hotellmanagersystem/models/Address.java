@@ -31,17 +31,30 @@ public class Address {
     @Size(max = 10, message = "ZipCode cannot be longer than 10 characters")
     private String zipCode;
 
-    @NotBlank(message = "City cannot be empty")
+    @NotBlank(message = "City is required")
     @Size(max = 255, message = "City cannot be longer than 255 characters")
     private String city;
 
-    @NotBlank(message = "Country cannot be empty")
+    @NotBlank(message = "Country is required")
     @Size(max = 255, message = "Country cannot be longer than 255 characters")
     private String country;
 
+    @NotBlank(message = "Created is required")
+    @Basic
     private LocalDate created;
+
+    @Basic
     private LocalDate lastUpdated;
 
     @OneToOne
     private User lastUpdatedBy;
+
+    public Address(String street, String number, String zipCode, String city, String country, LocalDate created){
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.country = country;
+        this.created = created;
+    }
 }
