@@ -2,6 +2,7 @@ package com.example.hotellmanagersystem.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +40,7 @@ public class Address {
     @Size(max = 255, message = "Country cannot be longer than 255 characters")
     private String country;
 
-    @NotBlank(message = "Created is required")
+    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 

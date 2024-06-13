@@ -4,38 +4,35 @@ import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
 import com.example.hotellmanagersystem.models.Address;
 import com.example.hotellmanagersystem.services.AddressService;
-import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidAddressAttributesException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Validated
 @RequestMapping("/address")
 @RequiredArgsConstructor
 public class AddressController {
 
     private final AddressService addressService;
 
+    @Transactional
     @PostMapping("/create")
-    Address createAddress(@Valid @RequestBody Address address, BindingResult result){
-        if (result.hasErrors()){
-            throw new InvalidAddressAttributesException(result.getAllErrors().toString());
-        }
+    public Address createAddress(@Valid @RequestBody Address address){
         return addressService.createAddress(address);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{id}")
-    String deleteById(@PathVariable Long id){
+    public String deleteById(@PathVariable Long id){
         return addressService.deleteAddressById(id);
     }
 
+    @Transactional
     @PutMapping("/update")
-    Address updateAddress(@RequestBody Address address){
+    public Address updateAddress(@Valid @RequestBody Address address){
         return addressService.updateAddress(address);
     }
 

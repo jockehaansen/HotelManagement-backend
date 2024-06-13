@@ -4,30 +4,37 @@ import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.services.CustomerService;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
 
+    @Transactional
     @PostMapping("/create")
-    Customer createCustomer(@RequestBody Customer customer){
+    public Customer createCustomer(@Valid @RequestBody Customer customer){
         return customerService.createCustomer(customer);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{email}")
-    String deleteCustomerByEmail(@PathVariable String email){
+    public String deleteCustomerByEmail(@PathVariable String email){
         return customerService.deleteCustomerByEmail(email);
     }
 
+    @Transactional
     @PutMapping("/update")
-    Customer updateCustomer(@RequestBody Customer customer){
+    public Customer updateCustomer(@Valid @RequestBody Customer customer){
         return customerService.updateCustomer(customer);
     }
 

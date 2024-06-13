@@ -4,6 +4,8 @@ import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.services.RoomService;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +23,21 @@ public class RoomController {
         return roomService.getAllRooms();
     }
 
+    @Transactional
     @PostMapping("/create")
-    Room createRoom(@RequestBody Room room){
+    public Room createRoom(@Valid @RequestBody Room room){
         return roomService.createRoom(room);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{id}")
-    String deleteRoom(@PathVariable Long id){
+    public String deleteRoom(@PathVariable Long id){
         return roomService.deleteRoomById(id);
     }
 
+    @Transactional
     @PutMapping("/update")
-    Room updateRoom(@RequestBody Room room){
+    public Room updateRoom(@RequestBody Room room){
         return roomService.updateRoom(room);
     }
 

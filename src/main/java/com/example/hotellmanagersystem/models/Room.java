@@ -1,8 +1,7 @@
 package com.example.hotellmanagersystem.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,17 +18,18 @@ public class Room {
     @GeneratedValue
     private Long id;
 
-    @NotEmpty(message = "Room number is required")
+    @NotNull(message = "Room number is required")
     private int roomNumber;
 
-    @NotEmpty(message = "Base price is required")
+    @NotNull(message = "Base price is required")
     private double basePrice;
 
-    @NotEmpty(message = "Beds is required")
-    @Size(min = 1, max = 4, message = "Beds has to be between 1 and 4")
+    @NotNull(message = "Beds is required")
+    @Min(1)
+    @Max(4)
     private int beds;
 
-    @NotEmpty(message = "Created is required")
+    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 
@@ -37,6 +37,7 @@ public class Room {
     private LocalDate lastUpdated;
 
     @ManyToOne
+    //TODO JOINCOLUMN?
     private User lastUpdatedBy;
 
     private void setBasePrice() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,21 +25,21 @@ public class Booking {
     private Long id;
 
     //denna ska auto-genereras i framtiden
-    @NotBlank(message = "Booking number is required")
+    @NotNull(message = "Booking number is required")
     private Long bookingNumber;
 
-    @NotBlank(message = "StartDate is required")
+    @NotNull(message = "StartDate is required")
     @Basic
     private LocalDate startDate;
 
-    @NotBlank(message = "EndDate is required")
+    @NotNull(message = "EndDate is required")
     @Basic
     private LocalDate endDate;
 
-    @NotBlank(message = "TotalPrice is required")
+    @NotNull(message = "TotalPrice is required")
     private double totalPrice;
 
-    @NotEmpty(message = "Created is required")
+    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 
@@ -46,10 +47,11 @@ public class Booking {
     private LocalDate lastUpdated;
 
     @ManyToOne
+    //TODO JOINCOLUMN?
     private User lastUpdatedBy;
 
     @ManyToOne
-    @NotEmpty(message = "Customer is required")
+    @NotNull(message = "Customer is required")
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

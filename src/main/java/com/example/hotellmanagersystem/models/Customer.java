@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,18 +43,30 @@ public class Customer {
     private String email;
 
     @ManyToOne()
-    @NotEmpty(message = "Address is required")
+    @NotNull(message = "Address is required")
     private Address address;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    public Customer(String firstName, String lastName, String phoneNumber, String email, Address address, List<Booking> bookings) {
+    @NotNull(message = "Created is required")
+    @Basic
+    private LocalDate created;
+
+    @Basic
+    private LocalDate lastUpdated;
+
+    @ManyToOne
+    //TODO JOINCOLUMN?
+    private User lastUpdatedBy;
+
+    public Customer(String firstName, String lastName, String phoneNumber, String email, Address address, List<Booking> bookings, LocalDate created) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.bookings = bookings;
+        this.created = created;
     }
 }
