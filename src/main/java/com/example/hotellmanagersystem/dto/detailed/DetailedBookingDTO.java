@@ -40,19 +40,15 @@ public class DetailedBookingDTO {
     @NotNull(message = "TotalPrice is required")
     private double totalPrice;
 
-    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 
     @Basic
     private LocalDate lastUpdated;
 
-    //TODO JOINCOLUMN?
     private User lastUpdatedBy;
 
-    private BasicCustomerDTO customer;
 
-    private List<DetailedRoomDTO> rooms;
 
     //specific for creating bookings
     @NotBlank(message = "Customer email is required")

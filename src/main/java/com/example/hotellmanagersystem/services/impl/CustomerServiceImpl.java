@@ -1,11 +1,15 @@
 package com.example.hotellmanagersystem.services.impl;
 
 import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
+import com.example.hotellmanagersystem.models.Address;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
+import com.example.hotellmanagersystem.services.AddressService;
 import com.example.hotellmanagersystem.services.CustomerService;
+import com.example.hotellmanagersystem.utilities.exceptionHandlers.EntityAlreadyExistsException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidCustomerAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
@@ -15,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,12 +30,24 @@ public class CustomerServiceImpl implements CustomerService {
     private final ModelMapper modelMapper;
 
     @Override
-    public Customer createCustomer(Customer customer) {
-        if (isCustomerFieldsValid(customer)){
-            //TODO logic to check if the address already exists, and use that in that case instead of creating a new one
-            addressRepository.save(customer.getAddress());
-            return customerRepository.save(customer);
-        } else throw new InvalidCustomerAttributesException("Error, customer attributes not valid");
+    public DetailedCustomerDTO createCustomer(DetailedCustomerDTO customer) {
+        Customer customerToBeCreated = new Customer();
+        customerToBeCreated.setCreated(LocalDate.now());
+        DetailedAddressDTO addressToCheck = customer.getAddress();
+
+        if (addressRepository.existsByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(),
+                addressToCheck.getCity(), addressToCheck.getZipCode(), addressToCheck.getNumber())){
+            Address foundAddress = addressRepository.findAddressByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(), addressToCheck.getCity(),
+                    addressToCheck.getZipCode(), addressToCheck.getNumber());
+            customerToBeCreated.setAddress(foundAddress);
+        } else {
+            Address addressToBeCreated = new Address();
+            addressToBeCreated.setCreated(LocalDate.now());
+            BeanUtils.copyProperties(addressToCheck,  addressToBeCreated, "id", "created");
+            addressRepository.save(addressToBeCreated);
+            customerToBeCreated.setAddress(addressToBeCreated);
+        }
+        return customerToDetailedCustomerDTO(customerRepository.save(setCustomerAttributes(customer, customerToBeCreated)));
     }
 
     @Transactional
@@ -97,19 +114,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll().stream().map(this::customerToDetailedCustomerDTO).toList();
     }
 
+
     //UTILITY
     @Override
-    public boolean isCustomerFieldsValid(Customer customer){
-        //TODO add logic to this function
-        return true;
+    public Customer setCustomerAttributes(DetailedCustomerDTO customerDTO, Customer customer) {
+        BeanUtils.copyProperties(customerDTO, customer,"id", "created");
+        customer.setLastUpdated(LocalDate.now());
+        return customer;
     }
-
-    private void validatePhoneNumber(){
-        //TODO create logic
-    }
-
-    private void validateEmail(){
-        //TODO create logic
-    }
-
 }

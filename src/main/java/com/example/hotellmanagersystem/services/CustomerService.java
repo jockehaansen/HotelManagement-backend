@@ -7,7 +7,7 @@ import com.example.hotellmanagersystem.models.Customer;
 import java.util.List;
 
 public interface CustomerService {
-    Customer createCustomer(Customer customer);
+    DetailedCustomerDTO createCustomer(DetailedCustomerDTO customer);
     Customer updateCustomer(Customer customer);
     String deleteCustomerByEmail(String email);
     Customer getCustomerByEmail(String email);
@@ -22,5 +22,5 @@ public interface CustomerService {
     List<DetailedCustomerDTO> getAllCustomersAsDetailedDTO();
 
     //UTILITY
-    boolean isCustomerFieldsValid(Customer customer);
+    Customer setCustomerAttributes(DetailedCustomerDTO customerDTO, Customer customer);
 }

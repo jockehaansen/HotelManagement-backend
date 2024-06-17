@@ -50,9 +50,8 @@ public class CustomerControllerTests {
     @Test
     @WithMockUser
     void createCustomer_shouldReturnNewCustomer_validFields() throws Exception {
-        Customer expectedResponse = new Customer();
-        when(customerService.isCustomerFieldsValid(expectedResponse)).thenReturn(true);
-        when(customerService.createCustomer(any(Customer.class))).thenReturn(expectedResponse);
+        DetailedCustomerDTO expectedResponse = new DetailedCustomerDTO();
+        when(customerService.createCustomer(any(DetailedCustomerDTO.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(post("/customers/create").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)

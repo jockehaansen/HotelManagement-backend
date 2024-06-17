@@ -7,8 +7,8 @@ import com.example.hotellmanagersystem.models.Address;
 import java.util.List;
 
 public interface AddressService {
-    Address createAddress(Address address);
-    Address updateAddress(DetailedAddressDTO address);
+    DetailedAddressDTO createAddress(DetailedAddressDTO address);
+    DetailedAddressDTO updateAddress(DetailedAddressDTO address);
     String deleteAddressById(Long id);
     Address getAddressById(Long id);
     List<Address> getAllAddresses();
@@ -24,4 +24,6 @@ public interface AddressService {
     //UTILITY
     boolean isAddressFieldsValid(Address address);
     boolean isAddressAlreadyInDatabase(Address address);
+
+    Address setAddressAttributes(DetailedAddressDTO addressDTO, Address address);
 }

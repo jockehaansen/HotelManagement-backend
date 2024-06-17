@@ -83,14 +83,14 @@ public class BookingServiceImpl implements BookingService {
 
 
     //UTILITY
-    private Booking setBookingAttributes(DetailedBookingDTO bookingDTO, Booking bookingToBeUpdated){
-        BeanUtils.copyProperties(bookingDTO, bookingToBeUpdated, "id", "created");
+    private Booking setBookingAttributes(DetailedBookingDTO bookingDTO, Booking booking){
+        BeanUtils.copyProperties(bookingDTO, booking, "id", "created");
         List<Room> rooms = new ArrayList<>();
         for (Long id : bookingDTO.getRoomIDs()) {
             rooms.add(roomService.getRoomById(id));
         }
-        bookingToBeUpdated.setRooms(rooms);
-        bookingToBeUpdated.setLastUpdated(LocalDate.now());
-        return bookingToBeUpdated;
+        booking.setRooms(rooms);
+        booking.setLastUpdated(LocalDate.now());
+        return booking;
     }
 }

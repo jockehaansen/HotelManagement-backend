@@ -22,7 +22,7 @@ public class CustomerController {
 
     @Transactional
     @PostMapping("/create")
-    public Customer createCustomer(@Valid @RequestBody Customer customer){
+    public DetailedCustomerDTO createCustomer(@Valid @RequestBody DetailedCustomerDTO customer){
         return customerService.createCustomer(customer);
     }
 

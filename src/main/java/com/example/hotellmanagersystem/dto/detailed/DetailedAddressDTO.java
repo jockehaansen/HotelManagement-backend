@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetailedAddressDTO {
-    @NotNull(message = "ID is required")
     private Long id;
 
     @NotBlank(message = "Street is required")
@@ -41,5 +40,9 @@ public class DetailedAddressDTO {
     @NotBlank(message = "Country is required")
     @Size(max = 255, message = "Country cannot be longer than 255 characters")
     private String country;
+
+    private LocalDate created;
+    private LocalDate lastUpdated;
+    private User lastUpdatedBy;
 
 }

@@ -23,21 +23,22 @@ public class AddressServiceImpl implements AddressService {
     private final ModelMapper modelMapper;
 
     @Override
-    public Address createAddress(Address address) {
-        if (isAddressAlreadyInDatabase(address)){
+    public DetailedAddressDTO createAddress(DetailedAddressDTO address) {
+        Address addressToBeCreated = new Address();
+        addressToBeCreated.setCreated(LocalDate.now());
+        setAddressAttributes(address, addressToBeCreated);
+
+        if (isAddressAlreadyInDatabase(addressToBeCreated)){
             throw new EntityAlreadyExistsException("Error, address already exist. No new address was created");
-        } else if (isAddressFieldsValid(address)){
-            return addressRepository.save(address);
-        } else throw new InvalidAddressAttributesException("Error, address attributes not valid");
+        }
+        return addressToDetailedAddressDTO(addressRepository.save(addressToBeCreated));
     }
 
     @Override
-    public Address updateAddress(DetailedAddressDTO address) {
+    public DetailedAddressDTO updateAddress(DetailedAddressDTO address) {
         Address addressToBeUpdated = addressRepository.findById(address.getId())
                 .orElseThrow(() -> new InvalidIDException("Error, address with id " + address.getId() + " was not found"));
-        BeanUtils.copyProperties(address, addressToBeUpdated, "id, created");
-        addressToBeUpdated.setLastUpdated(LocalDate.now());
-        return addressRepository.save(addressToBeUpdated);
+        return addressToDetailedAddressDTO(addressRepository.save(setAddressAttributes(address, addressToBeUpdated)));
     }
 
     @Override
@@ -99,5 +100,12 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public boolean isAddressAlreadyInDatabase(Address address){
         return addressRepository.existsByStreetAndCityAndZipCodeAndNumber(address.getStreet(), address.getCity(), address.getZipCode(), address.getNumber());
+    }
+
+    @Override
+    public Address setAddressAttributes(DetailedAddressDTO addressDTO, Address address) {
+        BeanUtils.copyProperties(addressDTO, address, "id", "created");
+        address.setLastUpdated(LocalDate.now());
+        return address;
     }
 }

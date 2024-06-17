@@ -20,7 +20,7 @@ public class AddressController {
 
     @Transactional
     @PostMapping("/create")
-    public Address createAddress(@Valid @RequestBody Address address){
+    public DetailedAddressDTO createAddress(@Valid @RequestBody DetailedAddressDTO address){
         return addressService.createAddress(address);
     }
 
@@ -32,7 +32,7 @@ public class AddressController {
 
     @Transactional
     @PutMapping("/update")
-    public Address updateAddress(@Valid @RequestBody DetailedAddressDTO address){
+    public DetailedAddressDTO updateAddress(@Valid @RequestBody DetailedAddressDTO address){
         return addressService.updateAddress(address);
     }
 
