@@ -34,7 +34,7 @@ public class CustomerController {
 
     @Transactional
     @PutMapping("/update")
-    public Customer updateCustomer(@Valid @RequestBody Customer customer){
+    public DetailedCustomerDTO updateCustomer(@Valid @RequestBody DetailedCustomerDTO customer){
         return customerService.updateCustomer(customer);
     }
 
@@ -54,8 +54,8 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{email}")
-    Customer getCustomer(@PathVariable String email){
-        return customerService.getCustomerByEmail(email);
+    DetailedCustomerDTO getCustomer(@PathVariable String email){
+        return customerService.getDetailedCustomerDTOByEmail(email);
     }
 
     @GetMapping("/customer/{email}/basic")

@@ -69,17 +69,17 @@ public class CustomerControllerTests {
     @Test
     @WithMockUser
     void updateCustomer_shouldReturnUpdatedCustomer_customerFound() throws Exception {
-        Customer customer = new Customer();
+        DetailedCustomerDTO customer = new DetailedCustomerDTO();
         Customer expectedResponse = new Customer();
-        when(customerRepository.findAll()).thenReturn(List.of(customer));
-        when(customerService.getAllCustomers()).thenReturn(List.of(customer));
-        when(customerService.updateCustomer(customer)).thenReturn(expectedResponse);
+        when(customerRepository.findAll()).thenReturn(List.of(expectedResponse));
+        when(customerService.getAllCustomers()).thenReturn(List.of(expectedResponse));
+        when(customerService.updateCustomer(customer)).thenReturn(customer);
 
         mockMvc.perform(put("/customers/update").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(expectedResponse)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse)));
+                .andExpect(content().json(objectMapper.writeValueAsString(customer)));
     }
 
     @Test

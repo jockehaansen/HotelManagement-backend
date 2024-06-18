@@ -7,10 +7,7 @@ import com.example.hotellmanagersystem.models.Address;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
-import com.example.hotellmanagersystem.services.AddressService;
 import com.example.hotellmanagersystem.services.CustomerService;
-import com.example.hotellmanagersystem.utilities.exceptionHandlers.EntityAlreadyExistsException;
-import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidCustomerAttributesException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import jakarta.transaction.Transactional;
@@ -33,31 +30,16 @@ public class CustomerServiceImpl implements CustomerService {
     public DetailedCustomerDTO createCustomer(DetailedCustomerDTO customer) {
         Customer customerToBeCreated = new Customer();
         customerToBeCreated.setCreated(LocalDate.now());
-        DetailedAddressDTO addressToCheck = customer.getAddress();
-
-        if (addressRepository.existsByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(),
-                addressToCheck.getCity(), addressToCheck.getZipCode(), addressToCheck.getNumber())){
-            Address foundAddress = addressRepository.findAddressByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(), addressToCheck.getCity(),
-                    addressToCheck.getZipCode(), addressToCheck.getNumber());
-            customerToBeCreated.setAddress(foundAddress);
-        } else {
-            Address addressToBeCreated = new Address();
-            addressToBeCreated.setCreated(LocalDate.now());
-            BeanUtils.copyProperties(addressToCheck,  addressToBeCreated, "id", "created");
-            addressRepository.save(addressToBeCreated);
-            customerToBeCreated.setAddress(addressToBeCreated);
-        }
+        checkAndSetCustomerAddress(customer, customerToBeCreated);
         return customerToDetailedCustomerDTO(customerRepository.save(setCustomerAttributes(customer, customerToBeCreated)));
     }
 
     @Transactional
     @Override
-    public Customer updateCustomer(Customer customer) {
-        //TODO logic to validate the incoming customer fields
+    public DetailedCustomerDTO updateCustomer(DetailedCustomerDTO customer) {
         Customer customerToBeUpdated = customerRepository.findAll().stream().filter(c -> c.getEmail().equalsIgnoreCase(customer.getEmail())).findFirst()
                 .orElseThrow(() -> new InvalidEmailException("Customer with email \" + email + \" was not found"));
-        BeanUtils.copyProperties(customer, customerToBeUpdated, "id, created");
-        return customerRepository.save(customerToBeUpdated);
+        return customerToDetailedCustomerDTO(customerRepository.save(setCustomerAttributes(customer, customerToBeUpdated)));
     }
 
     @Transactional
@@ -121,5 +103,22 @@ public class CustomerServiceImpl implements CustomerService {
         BeanUtils.copyProperties(customerDTO, customer,"id", "created");
         customer.setLastUpdated(LocalDate.now());
         return customer;
+    }
+
+    public void checkAndSetCustomerAddress(DetailedCustomerDTO customer, Customer customerToBeCreated ){
+        DetailedAddressDTO addressToCheck = customer.getAddress();
+
+        if (addressRepository.existsByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(),
+                addressToCheck.getCity(), addressToCheck.getZipCode(), addressToCheck.getNumber())){
+            Address foundAddress = addressRepository.findAddressByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(), addressToCheck.getCity(),
+                    addressToCheck.getZipCode(), addressToCheck.getNumber());
+            customerToBeCreated.setAddress(foundAddress);
+        } else {
+            Address addressToBeCreated = new Address();
+            addressToBeCreated.setCreated(LocalDate.now());
+            BeanUtils.copyProperties(addressToCheck,  addressToBeCreated, "id", "created");
+            addressRepository.save(addressToBeCreated);
+            customerToBeCreated.setAddress(addressToBeCreated);
+        }
     }
 }
