@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
@@ -8,6 +9,7 @@ import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.AddressRepository;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
 import com.example.hotellmanagersystem.services.CustomerService;
+import com.example.hotellmanagersystem.utilities.configs.MapperConfig;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import jakarta.transaction.Transactional;
@@ -24,7 +26,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
-    private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper = MapperConfig.modelMapper();
 
     @Override
     public DetailedCustomerDTO createCustomer(DetailedCustomerDTO customer) {
@@ -83,7 +85,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
-        return modelMapper.map(customer, DetailedCustomerDTO.class);
+        DetailedCustomerDTO detailedCustomerDTO = modelMapper.map(customer, DetailedCustomerDTO.class);
+
+        return detailedCustomerDTO;
     }
 
     @Override
