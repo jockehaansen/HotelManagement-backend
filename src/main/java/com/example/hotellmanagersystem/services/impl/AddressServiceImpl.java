@@ -55,8 +55,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getAllAddresses() {
-        return addressRepository.findAll();
+    public List<DetailedAddressDTO> getAllAddresses() {
+        return addressRepository.findAll().stream().map(this::addressToDetailedAddressDTO).toList();
     }
 
     //DTO HANDLING
@@ -92,14 +92,9 @@ public class AddressServiceImpl implements AddressService {
 
     //UTILITY
     @Override
-    public boolean isAddressFieldsValid(Address address) {
-        //TODO logic to check the address fields are valid
-        return true;
-    }
-
-    @Override
     public boolean isAddressAlreadyInDatabase(Address address){
-        return addressRepository.existsByStreetAndCityAndZipCodeAndNumber(address.getStreet(), address.getCity(), address.getZipCode(), address.getNumber());
+        return addressRepository.existsByStreetAndCityAndZipCodeAndNumber(address.getStreet(), address.getCity(),
+                address.getZipCode(), address.getNumber());
     }
 
     @Override

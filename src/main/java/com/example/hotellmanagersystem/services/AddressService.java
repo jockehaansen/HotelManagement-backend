@@ -11,7 +11,7 @@ public interface AddressService {
     DetailedAddressDTO updateAddress(DetailedAddressDTO address);
     String deleteAddressById(Long id);
     Address getAddressById(Long id);
-    List<Address> getAllAddresses();
+    List<DetailedAddressDTO> getAllAddresses();
 
     //DTO HANDLING
     BasicAddressDTO getBasicAddressDTOById(Long id);
@@ -22,8 +22,6 @@ public interface AddressService {
     List<DetailedAddressDTO> getAllAddressesAsDetailedDTO();
 
     //UTILITY
-    boolean isAddressFieldsValid(Address address);
     boolean isAddressAlreadyInDatabase(Address address);
-
     Address setAddressAttributes(DetailedAddressDTO addressDTO, Address address);
 }

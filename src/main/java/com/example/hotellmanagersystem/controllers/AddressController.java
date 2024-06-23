@@ -37,18 +37,13 @@ public class AddressController {
     }
 
     @GetMapping("")
-    List<Address> getAllAddresses(){
+    List<DetailedAddressDTO> getAllAddresses(){
         return addressService.getAllAddresses();
     }
 
     @GetMapping("/basic")
     List<BasicAddressDTO> getAllAddressesAsBasicDTOs(){
         return addressService.getAllAddressesAsBasicDTO();
-    }
-
-    @GetMapping("/detailed")
-    List<DetailedAddressDTO> getAllAddressesAsDetailedDTOs(){
-        return addressService.getAllAddressesAsDetailedDTO();
     }
 
     @GetMapping("/basic/{id}")
