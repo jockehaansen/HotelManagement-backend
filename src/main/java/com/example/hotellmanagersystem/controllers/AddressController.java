@@ -26,7 +26,7 @@ public class AddressController {
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public String deleteById(@PathVariable Long id){
+    public String deleteAddressById(@PathVariable Long id){
         return addressService.deleteAddressById(id);
     }
 
@@ -42,17 +42,17 @@ public class AddressController {
     }
 
     @GetMapping("/basic")
-    List<BasicAddressDTO> getAllAddressesAsBasicDTOs(){
+    List<BasicAddressDTO> getAllAddressesAsBasic(){
         return addressService.getAllAddressesAsBasicDTO();
     }
 
     @GetMapping("/basic/{id}")
-    BasicAddressDTO getAddressAsBasicDTO(@PathVariable Long id){
+    BasicAddressDTO getBasicAddress(@PathVariable Long id){
         return addressService.getBasicAddressDTOById(id);
     }
 
     @GetMapping("/detailed/{id}")
-    DetailedAddressDTO getAddressAsDetailedDTO(@PathVariable Long id){
+    DetailedAddressDTO getDetailedAddress(@PathVariable Long id){
         return addressService.getDetailedAddressDTOById(id);
     }
 }

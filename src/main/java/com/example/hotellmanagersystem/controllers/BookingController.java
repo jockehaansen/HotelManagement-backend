@@ -19,13 +19,13 @@ public class BookingController {
 
     @Transactional
     @PostMapping("/create")
-    public DetailedBookingDTO createBokning(@Valid @RequestBody DetailedBookingDTO booking){
+    public DetailedBookingDTO createBooking(@Valid @RequestBody DetailedBookingDTO booking){
         return bookingService.createBooking(booking);
     }
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public String deleteById(@PathVariable Long id){
+    public String deleteBookingById(@PathVariable Long id){
         return bookingService.deleteBookingById(id);
     }
 
@@ -37,6 +37,7 @@ public class BookingController {
 
     @GetMapping("")
     List<Booking> getAllBookings(){
+        //TODO ska lämna ifrån sig detailedDTOS
         return bookingService.getAllBookings();
     }
 
@@ -45,8 +46,10 @@ public class BookingController {
         return bookingService.getAllBookingsAsBasicDTO();
     }
 
-    @GetMapping("/detailed")
-    List<DetailedBookingDTO> getAllBookingsAsDetailedDTOs(){
-        return bookingService.getAllBookingsAsDetailedDTO();
+    @GetMapping("/{id}")
+    DetailedBookingDTO getBookingById(@PathVariable Long id){
+        //TODO ska lämna ifrån sig en detailed booking
+        return null;
     }
+
 }
