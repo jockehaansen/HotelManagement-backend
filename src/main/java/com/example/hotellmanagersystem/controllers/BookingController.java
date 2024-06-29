@@ -36,8 +36,7 @@ public class BookingController {
     }
 
     @GetMapping("")
-    List<Booking> getAllBookings(){
-        //TODO ska lämna ifrån sig detailedDTOS
+    List<DetailedBookingDTO> getAllBookings(){
         return bookingService.getAllBookings();
     }
 
