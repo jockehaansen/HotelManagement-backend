@@ -1,7 +1,9 @@
 package com.example.hotellmanagersystem.controllers;
 
+import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.services.BookingService;
 import jakarta.transaction.Transactional;
@@ -33,6 +35,11 @@ public class BookingController {
     @PutMapping("/update")
     public DetailedBookingDTO updateBooking(@Valid @RequestBody DetailedBookingDTO booking){
         return bookingService.updateBooking(booking);
+    }
+
+    @PostMapping("/find")
+    public List<DetailedRoomDTO> findAvailableRooms(@Valid @RequestBody FindRoomsDTO findRoomsDTO){
+        return bookingService.findAvailableRooms(findRoomsDTO);
     }
 
     @GetMapping("")

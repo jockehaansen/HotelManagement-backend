@@ -26,7 +26,7 @@ public class DetailedBookingDTO {
     private Long id;
 
     //denna ska auto-genereras i framtiden
-    @NotNull(message = "Booking number is required")
+    //@NotNull(message = "Booking number is required")
     private Long bookingNumber;
 
     @NotNull(message = "StartDate is required")
@@ -37,7 +37,7 @@ public class DetailedBookingDTO {
     @Basic
     private LocalDate endDate;
 
-    @NotNull(message = "TotalPrice is required")
+    //@NotNull(message = "TotalPrice is required")
     private double totalPrice;
 
     @Basic

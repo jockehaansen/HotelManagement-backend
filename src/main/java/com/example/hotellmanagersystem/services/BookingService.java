@@ -1,7 +1,9 @@
 package com.example.hotellmanagersystem.services;
 
+import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
+import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Booking;
 
 import java.util.List;
@@ -18,4 +20,5 @@ public interface BookingService {
     DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking);
     List<BasicBookingDTO> getAllBookingsAsBasicDTO();
     List<DetailedBookingDTO> getAllBookingsAsDetailedDTO();
+    List<DetailedRoomDTO> findAvailableRooms(FindRoomsDTO findRoomsDTO);
 }

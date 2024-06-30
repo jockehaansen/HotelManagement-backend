@@ -1,11 +1,13 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.BookingRepository;
+import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.BookingService;
 import com.example.hotellmanagersystem.services.CustomerService;
 import com.example.hotellmanagersystem.services.RoomService;
@@ -27,12 +29,14 @@ public class BookingServiceImpl implements BookingService {
     private final CustomerService customerService;
     private final RoomService roomService;
     private final ModelMapper modelMapper;
+    private final RoomRepository roomRepository;
 
     @Override
     public DetailedBookingDTO createBooking(DetailedBookingDTO booking) {
         Booking bookingToBeCreated = new Booking();
         bookingToBeCreated.setCreated(LocalDate.now());
         bookingToBeCreated.setCustomer(customerService.getCustomerByEmail(booking.getCustomerEmail()));
+        bookingToBeCreated.setRooms(roomRepository.findAllById(booking.getRoomIDs()));
         return bookingToDetailedBookingDTO(bookingRepository.save(setBookingAttributes(booking, bookingToBeCreated)));
     }
 
@@ -68,7 +72,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
-        return modelMapper.map(booking, DetailedBookingDTO.class);
+        DetailedBookingDTO detailedBookingDTO = modelMapper.map(booking, DetailedBookingDTO.class);
+        detailedBookingDTO.setRoomIDs(booking.getRooms().stream().map(Room::getId).toList());
+        return detailedBookingDTO;
     }
 
     @Override
@@ -79,6 +85,28 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<DetailedBookingDTO> getAllBookingsAsDetailedDTO() {
         return bookingRepository.findAll().stream().map(this::bookingToDetailedBookingDTO).toList();
+    }
+
+    @Override
+    public List<DetailedRoomDTO> findAvailableRooms(FindRoomsDTO findRoomsDTO) {
+        System.out.println(findRoomsDTO.getStartDate());
+        System.out.println(findRoomsDTO.getEndDate());
+        LocalDate startDate = LocalDate.parse(findRoomsDTO.getStartDate());
+        LocalDate endDate = LocalDate.parse(findRoomsDTO.getEndDate());
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getBeds() >= findRoomsDTO.getGuests())
+                .filter(room -> isRoomAvailable(room, bookingRepository.findAll(), startDate, endDate))
+                .map(roomService::roomToDetailedRoomDTO)
+                .toList();
+    }
+
+    public boolean isRoomAvailable(Room room, List<Booking> bookings, LocalDate startDate, LocalDate endDate){
+        for(Booking booking : bookings){
+            if (booking.getRooms().contains(room) && !(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate()))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
