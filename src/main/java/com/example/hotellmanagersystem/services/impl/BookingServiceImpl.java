@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +34,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO createBooking(DetailedBookingDTO booking) {
+        //TODO clean this up, move it into setBookingAttributes?
         Booking bookingToBeCreated = new Booking();
         bookingToBeCreated.setCreated(LocalDate.now());
         bookingToBeCreated.setCustomer(customerService.getCustomerByEmail(booking.getCustomerEmail()));
-        bookingToBeCreated.setRooms(roomRepository.findAllById(booking.getRoomIDs()));
+        bookingToBeCreated.setRoom(roomRepository.findById(booking.getRoomID()).orElse(null));
+        Long maxBookingNumber = bookingRepository.findMaxBookingNumber();
+        Long nextBookingNumber = maxBookingNumber + 1;
+        bookingToBeCreated.setBookingNumber(nextBookingNumber);
         return bookingToDetailedBookingDTO(bookingRepository.save(setBookingAttributes(booking, bookingToBeCreated)));
     }
 
@@ -73,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
         DetailedBookingDTO detailedBookingDTO = modelMapper.map(booking, DetailedBookingDTO.class);
-        detailedBookingDTO.setRoomIDs(booking.getRooms().stream().map(Room::getId).toList());
+        detailedBookingDTO.setRoomID(booking.getRoom().getId());
         return detailedBookingDTO;
     }
 
@@ -89,8 +94,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<DetailedRoomDTO> findAvailableRooms(FindRoomsDTO findRoomsDTO) {
-        System.out.println(findRoomsDTO.getStartDate());
-        System.out.println(findRoomsDTO.getEndDate());
         LocalDate startDate = LocalDate.parse(findRoomsDTO.getStartDate());
         LocalDate endDate = LocalDate.parse(findRoomsDTO.getEndDate());
         return roomRepository.findAll().stream()
@@ -100,10 +103,13 @@ public class BookingServiceImpl implements BookingService {
                 .toList();
     }
 
-    public boolean isRoomAvailable(Room room, List<Booking> bookings, LocalDate startDate, LocalDate endDate){
-        for(Booking booking : bookings){
-            if (booking.getRooms().contains(room) && !(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate()))) {
-                return false;
+    public boolean isRoomAvailable(Room room, List<Booking> bookings, LocalDate startDate, LocalDate endDate) {
+        for (Booking booking : bookings) {
+            if (booking.getRoom().equals(room)) { // Check if the booking is for the given room
+                // Check for overlap
+                if (!(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate()))) {
+                    return false; // Room is not available if there is an overlap
+                }
             }
         }
         return true;
@@ -112,12 +118,7 @@ public class BookingServiceImpl implements BookingService {
 
     //UTILITY
     private Booking setBookingAttributes(DetailedBookingDTO bookingDTO, Booking booking){
-        BeanUtils.copyProperties(bookingDTO, booking, "id", "created");
-        List<Room> rooms = new ArrayList<>();
-        for (Long id : bookingDTO.getRoomIDs()) {
-            rooms.add(roomService.getRoomById(id));
-        }
-        booking.setRooms(rooms);
+        BeanUtils.copyProperties(bookingDTO, booking, "id", "created", "bookingNumber");
         booking.setLastUpdated(LocalDate.now());
         return booking;
     }

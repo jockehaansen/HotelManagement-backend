@@ -1,14 +1,9 @@
 package com.example.hotellmanagersystem.dto.detailed;
 
-import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
-import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
-import com.example.hotellmanagersystem.models.Customer;
-import com.example.hotellmanagersystem.models.Room;
+
 import com.example.hotellmanagersystem.models.User;
 import jakarta.persistence.Basic;
-import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +49,6 @@ public class DetailedBookingDTO {
     @NotBlank(message = "Customer email is required")
     private String customerEmail;
 
-    @NotNull(message = "Room ID's is required")
-    private List<Long> roomIDs;
+    @NotNull(message = "Room ID is required")
+    private Long roomID;
 }

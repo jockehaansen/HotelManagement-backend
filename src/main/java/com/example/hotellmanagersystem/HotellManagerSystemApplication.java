@@ -51,7 +51,7 @@ public class HotellManagerSystemApplication {
             customer.setEmail("example@email.com");
             customer.setCreated(LocalDate.now());
             customerRepository.save(customer);
-            Booking booking = new Booking(100L, LocalDate.now(), LocalDate.now().plusDays(2), 2000, LocalDate.now(), customer, List.of(Objects.requireNonNull(roomRepository.findById(1L).orElse(null))));
+            Booking booking = new Booking(100L, LocalDate.now(), LocalDate.now().plusDays(2), 2000, LocalDate.now(), customer, roomRepository.findById(1L).orElse(null));
             bookingRepository.save(booking);
         };
 
