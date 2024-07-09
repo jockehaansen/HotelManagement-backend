@@ -8,10 +8,12 @@ import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.models.Room;
 import com.example.hotellmanagersystem.repositories.BookingRepository;
+import com.example.hotellmanagersystem.repositories.CustomerRepository;
 import com.example.hotellmanagersystem.repositories.RoomRepository;
 import com.example.hotellmanagersystem.services.BookingService;
 import com.example.hotellmanagersystem.services.CustomerService;
 import com.example.hotellmanagersystem.services.RoomService;
+import com.example.hotellmanagersystem.utilities.exceptionHandlers.CustomerNotFoundException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,14 @@ public class BookingServiceImpl implements BookingService {
     private final RoomService roomService;
     private final ModelMapper modelMapper;
     private final RoomRepository roomRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public DetailedBookingDTO createBooking(CustomerBookingDTO booking) {
+        //TODO this should return a ConfirmedBookingDTO
+        if (!customerRepository.existsByEmail(booking.getCustomerEmail())){
+            throw new CustomerNotFoundException("Customer not found");
+        }
         return bookingToDetailedBookingDTO(bookingRepository.save(setCustomerBookingAttributes(booking, createAndSetNewBookingAttributes(booking))));
     }
 

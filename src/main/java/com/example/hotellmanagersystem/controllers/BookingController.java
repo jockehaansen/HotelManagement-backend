@@ -7,9 +7,12 @@ import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedRoomDTO;
 import com.example.hotellmanagersystem.models.Booking;
 import com.example.hotellmanagersystem.services.BookingService;
+import com.example.hotellmanagersystem.utilities.exceptionHandlers.CustomerNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +25,8 @@ public class BookingController {
 
     @Transactional
     @PostMapping("/create")
-    public DetailedBookingDTO createBooking(@Valid @RequestBody CustomerBookingDTO booking){
-        return bookingService.createBooking(booking);
+    public ResponseEntity<DetailedBookingDTO> createBooking(@Valid @RequestBody CustomerBookingDTO booking){
+        return ResponseEntity.ok(bookingService.createBooking(booking));
     }
 
     @Transactional
@@ -57,6 +60,12 @@ public class BookingController {
     DetailedBookingDTO getBookingById(@PathVariable Long id){
         //TODO ska lämna ifrån sig en detailed booking
         return null;
+    }
+
+    //ExceptionHandlers
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<String> handleCustomerNotFoundException(CustomerNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.FOUND).body("/register");
     }
 
 }
