@@ -1,7 +1,11 @@
 package com.example.hotellmanagersystem.dto.detailed;
 
 
+import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
+import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
 import com.example.hotellmanagersystem.models.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Basic;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +21,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"customer.bookings"})
 public class DetailedBookingDTO {
     private Long id;
 
@@ -35,6 +40,9 @@ public class DetailedBookingDTO {
     //@NotNull(message = "TotalPrice is required")
     private double totalPrice;
 
+    private BasicRoomDTO room;
+    private BasicCustomerDTO customer;
+
     @Basic
     private LocalDate created;
 
@@ -45,10 +53,5 @@ public class DetailedBookingDTO {
 
 
 
-    //specific for creating bookings
-    @NotBlank(message = "Customer email is required")
-    private String customerEmail;
 
-    @NotNull(message = "Room ID is required")
-    private Long roomID;
 }

@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.dto.detailed;
 
+import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.models.User;
 import jakarta.persistence.Basic;
@@ -40,7 +41,7 @@ public class DetailedCustomerDTO {
     private String email;
 
     @NotNull(message = "Address is required")
-    private DetailedAddressDTO address;
+    private BasicAddressDTO address;
 
     private List<BasicBookingDTO> bookings;
 

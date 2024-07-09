@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.dto.CustomerBookingDTO;
 import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
@@ -33,16 +34,8 @@ public class BookingServiceImpl implements BookingService {
     private final RoomRepository roomRepository;
 
     @Override
-    public DetailedBookingDTO createBooking(DetailedBookingDTO booking) {
-        //TODO clean this up, move it into setBookingAttributes?
-        Booking bookingToBeCreated = new Booking();
-        bookingToBeCreated.setCreated(LocalDate.now());
-        bookingToBeCreated.setCustomer(customerService.getCustomerByEmail(booking.getCustomerEmail()));
-        bookingToBeCreated.setRoom(roomRepository.findById(booking.getRoomID()).orElse(null));
-        Long maxBookingNumber = bookingRepository.findMaxBookingNumber();
-        Long nextBookingNumber = maxBookingNumber + 1;
-        bookingToBeCreated.setBookingNumber(nextBookingNumber);
-        return bookingToDetailedBookingDTO(bookingRepository.save(setBookingAttributes(booking, bookingToBeCreated)));
+    public DetailedBookingDTO createBooking(CustomerBookingDTO booking) {
+        return bookingToDetailedBookingDTO(bookingRepository.save(setCustomerBookingAttributes(booking, createAndSetNewBookingAttributes(booking))));
     }
 
     @Override
@@ -77,9 +70,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking) {
-        DetailedBookingDTO detailedBookingDTO = modelMapper.map(booking, DetailedBookingDTO.class);
-        detailedBookingDTO.setRoomID(booking.getRoom().getId());
-        return detailedBookingDTO;
+        return modelMapper.map(booking, DetailedBookingDTO.class);
     }
 
     @Override
@@ -97,7 +88,7 @@ public class BookingServiceImpl implements BookingService {
         LocalDate startDate = LocalDate.parse(findRoomsDTO.getStartDate());
         LocalDate endDate = LocalDate.parse(findRoomsDTO.getEndDate());
         return roomRepository.findAll().stream()
-                .filter(room -> room.getBeds() >= findRoomsDTO.getGuests())
+                .filter(room -> room.getCapacity() >= findRoomsDTO.getGuests())
                 .filter(room -> isRoomAvailable(room, bookingRepository.findAll(), startDate, endDate))
                 .map(roomService::roomToDetailedRoomDTO)
                 .toList();
@@ -115,11 +106,27 @@ public class BookingServiceImpl implements BookingService {
         return true;
     }
 
-
     //UTILITY
     private Booking setBookingAttributes(DetailedBookingDTO bookingDTO, Booking booking){
         BeanUtils.copyProperties(bookingDTO, booking, "id", "created", "bookingNumber");
         booking.setLastUpdated(LocalDate.now());
         return booking;
+    }
+
+    private Booking setCustomerBookingAttributes(CustomerBookingDTO bookingDTO, Booking booking){
+        BeanUtils.copyProperties(bookingDTO, booking, "id", "created", "bookingNumber");
+        booking.setLastUpdated(LocalDate.now());
+        return booking;
+    }
+
+    private Booking createAndSetNewBookingAttributes(CustomerBookingDTO bookingDTO){
+        Booking bookingToBeCreated = new Booking();
+        bookingToBeCreated.setCreated(LocalDate.now());
+        bookingToBeCreated.setCustomer(customerService.getCustomerByEmail(bookingDTO.getCustomerEmail()));
+        bookingToBeCreated.setRoom(roomRepository.findById(bookingDTO.getRoomId()).orElse(null));
+        Long maxBookingNumber = bookingRepository.findMaxBookingNumber();
+        Long nextBookingNumber = maxBookingNumber + 1;
+        bookingToBeCreated.setBookingNumber(nextBookingNumber);
+        return bookingToBeCreated;
     }
 }

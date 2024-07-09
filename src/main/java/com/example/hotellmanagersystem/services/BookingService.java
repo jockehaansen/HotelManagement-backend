@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.services;
 
+import com.example.hotellmanagersystem.dto.CustomerBookingDTO;
 import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
@@ -9,7 +10,7 @@ import com.example.hotellmanagersystem.models.Booking;
 import java.util.List;
 
 public interface BookingService {
-    DetailedBookingDTO createBooking(DetailedBookingDTO booking);
+    DetailedBookingDTO createBooking(CustomerBookingDTO booking);
     DetailedBookingDTO updateBooking(DetailedBookingDTO booking);
     String deleteBookingById(Long id);
     String deleteBookingByBookingNumber(Long bookingNumber);

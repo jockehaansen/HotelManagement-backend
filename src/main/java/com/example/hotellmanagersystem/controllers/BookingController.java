@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.controllers;
 
+import com.example.hotellmanagersystem.dto.CustomerBookingDTO;
 import com.example.hotellmanagersystem.dto.FindRoomsDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedBookingDTO;
@@ -21,7 +22,7 @@ public class BookingController {
 
     @Transactional
     @PostMapping("/create")
-    public DetailedBookingDTO createBooking(@Valid @RequestBody DetailedBookingDTO booking){
+    public DetailedBookingDTO createBooking(@Valid @RequestBody CustomerBookingDTO booking){
         return bookingService.createBooking(booking);
     }
 

@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BasicRoomDTO {
 
+    private Long id;
     private int roomNumber;
     private double basePrice;
-    private int beds;
+    private int capacity;
 }

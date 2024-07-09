@@ -1,5 +1,8 @@
 package com.example.hotellmanagersystem.dto.basic;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +20,6 @@ public class BasicBookingDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private double totalPrice;
-    private BasicCustomerDTO customer;
-    private List<BasicRoomDTO> rooms;
+    private String customerEmail;
+    private Long roomId;
 }

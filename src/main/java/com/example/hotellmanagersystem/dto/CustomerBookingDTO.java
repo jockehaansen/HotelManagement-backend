@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindRoomsDTO {
+public class CustomerBookingDTO {
 
-    private String startDate;
-    private String endDate;
-    private int guests;
     private String customerEmail;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private int guests;
+    private Long roomId;
 }

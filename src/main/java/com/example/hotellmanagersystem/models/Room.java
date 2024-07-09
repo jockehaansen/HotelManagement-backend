@@ -24,10 +24,10 @@ public class Room {
     @NotNull(message = "Base price is required")
     private double basePrice;
 
-    @NotNull(message = "Beds is required")
+    @NotNull(message = "Capacity is required")
     @Min(1)
     @Max(4)
-    private int beds;
+    private int capacity;
 
     @NotNull(message = "Created is required")
     @Basic
@@ -41,7 +41,7 @@ public class Room {
     private User lastUpdatedBy;
 
     private void setBasePrice() {
-        switch (beds) {
+        switch (capacity) {
             case 1:
                 this.basePrice = 1000;
                 break;
@@ -60,7 +60,7 @@ public class Room {
         }
     }
     public void setBeds(int beds) {
-        this.beds = beds;
+        this.capacity = beds;
         setBasePrice(); // Automatically set the price when beds are set
     }
     @PrePersist
@@ -71,7 +71,7 @@ public class Room {
     public Room(int roomNumber, double basePrice, int beds, LocalDate created) {
         this.roomNumber = roomNumber;
         this.basePrice = basePrice;
-        this.beds = beds;
+        this.capacity = beds;
         this.created = created;
     }
 }

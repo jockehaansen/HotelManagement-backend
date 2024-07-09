@@ -1,5 +1,6 @@
 package com.example.hotellmanagersystem.services.impl;
 
+import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedAddressDTO;
@@ -13,6 +14,7 @@ import com.example.hotellmanagersystem.utilities.configs.MapperConfig;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidEmailException;
 import com.example.hotellmanagersystem.utilities.exceptionHandlers.InvalidIDException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -85,9 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public DetailedCustomerDTO customerToDetailedCustomerDTO(Customer customer) {
-        DetailedCustomerDTO detailedCustomerDTO = modelMapper.map(customer, DetailedCustomerDTO.class);
-
-        return detailedCustomerDTO;
+        return modelMapper.map(customer, DetailedCustomerDTO.class);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void checkAndSetCustomerAddress(DetailedCustomerDTO customer, Customer customerToBeCreated ){
-        DetailedAddressDTO addressToCheck = customer.getAddress();
+        BasicAddressDTO addressToCheck = customer.getAddress();
 
         if (addressRepository.existsByStreetAndCityAndZipCodeAndNumber(addressToCheck.getStreet(),
                 addressToCheck.getCity(), addressToCheck.getZipCode(), addressToCheck.getNumber())){

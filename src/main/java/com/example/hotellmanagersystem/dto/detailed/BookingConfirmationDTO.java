@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BookingConfirmationDTO {
 
-    //TODO implement this
     private Long bookingNumber;
     private BasicCustomerDTO customer;
     private LocalDate startDate;

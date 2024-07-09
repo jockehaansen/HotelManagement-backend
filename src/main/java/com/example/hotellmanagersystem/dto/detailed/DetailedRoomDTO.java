@@ -16,7 +16,7 @@ public class DetailedRoomDTO {
     private Long id;
     private int roomNumber;
     private double basePrice;
-    private int beds;
+    private int capacity;
 
     private LocalDate created;
     private LocalDate lastUpdated;
