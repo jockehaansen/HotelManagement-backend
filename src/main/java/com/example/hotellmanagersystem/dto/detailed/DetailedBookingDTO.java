@@ -25,8 +25,6 @@ import java.util.List;
 public class DetailedBookingDTO {
     private Long id;
 
-    //denna ska auto-genereras i framtiden
-    //@NotNull(message = "Booking number is required")
     private Long bookingNumber;
 
     @NotNull(message = "StartDate is required")
@@ -37,7 +35,9 @@ public class DetailedBookingDTO {
     @Basic
     private LocalDate endDate;
 
-    //@NotNull(message = "TotalPrice is required")
+    @NotBlank(message = "Number of guests is required")
+    private int guests;
+
     private double totalPrice;
 
     private BasicRoomDTO room;
@@ -50,8 +50,4 @@ public class DetailedBookingDTO {
     private LocalDate lastUpdated;
 
     private User lastUpdatedBy;
-
-
-
-
 }

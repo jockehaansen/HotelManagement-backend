@@ -41,8 +41,11 @@ public class DetailedAddressDTO {
     @Size(max = 255, message = "Country cannot be longer than 255 characters")
     private String country;
 
+    @Basic
     private LocalDate created;
-    private LocalDate lastUpdated;
-    private User lastUpdatedBy;
 
+    @Basic
+    private LocalDate lastUpdated;
+
+    private User lastUpdatedBy;
 }

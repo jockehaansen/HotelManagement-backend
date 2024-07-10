@@ -1,11 +1,13 @@
 package com.example.hotellmanagersystem.ControllerTests;
 
+import com.example.hotellmanagersystem.dto.basic.BasicAddressDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
 import com.example.hotellmanagersystem.dto.detailed.DetailedCustomerDTO;
 import com.example.hotellmanagersystem.controllers.CustomerController;
 import com.example.hotellmanagersystem.models.Customer;
 import com.example.hotellmanagersystem.repositories.CustomerRepository;
 import com.example.hotellmanagersystem.services.CustomerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +52,9 @@ public class CustomerControllerTests {
     @Test
     @WithMockUser
     void createCustomer_shouldReturnNewCustomer_validFields() throws Exception {
-        DetailedCustomerDTO expectedResponse = new DetailedCustomerDTO();
+        DetailedCustomerDTO expectedResponse = new DetailedCustomerDTO("testName", "testLastName",
+                "testNumber", "testEmail@example.com", new BasicAddressDTO("testStreet", "testNumber",
+                "123456", "testCity", "testCountry"));
         when(customerService.createCustomer(any(DetailedCustomerDTO.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(post("/customers/create").with(csrf())
@@ -62,8 +66,16 @@ public class CustomerControllerTests {
 
     @Test
     @WithMockUser
-    void createCustomer_shouldReturnException_invalidFields() {
-        //TODO
+    void createCustomer_shouldReturnException_invalidFields() throws Exception {
+        DetailedCustomerDTO invalidRequest = new DetailedCustomerDTO("testName", "testLastName",
+                "testNumber", "testEmail", new BasicAddressDTO("testStreet", "testNumber",
+                "123456", "testCity", "testCountry"));
+        when(customerService.createCustomer(any(DetailedCustomerDTO.class))).thenReturn(invalidRequest);
+
+        mockMvc.perform(post("/customers/create").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

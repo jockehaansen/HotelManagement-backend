@@ -52,4 +52,12 @@ public class DetailedCustomerDTO {
     private LocalDate lastUpdated;
 
     private User lastUpdatedBy;
+
+    public DetailedCustomerDTO(String firstName, String lastName, String phoneNumber, String email, BasicAddressDTO address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
 }

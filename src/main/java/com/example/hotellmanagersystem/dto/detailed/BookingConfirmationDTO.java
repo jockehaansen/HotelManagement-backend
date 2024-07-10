@@ -1,7 +1,10 @@
 package com.example.hotellmanagersystem.dto.detailed;
 
+import com.example.hotellmanagersystem.dto.basic.BasicBookingDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicCustomerDTO;
 import com.example.hotellmanagersystem.dto.basic.BasicRoomDTO;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BookingConfirmationDTO {
 
-    private Long bookingNumber;
+    @NotBlank(message = "Customer is required")
     private BasicCustomerDTO customer;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private double totalPrice;
-    private BasicRoomDTO room;
 
+    @NotBlank(message = "Booking is required")
+    private BasicBookingDTO booking;
 }
