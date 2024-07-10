@@ -48,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public DetailedBookingDTO updateBooking(DetailedBookingDTO booking) {
         Booking bookingToBeUpdated = bookingRepository.findById(booking.getId())
-                .orElseThrow(() -> new InvalidIDException("Error, address with id " + booking.getId() + " was not found"));
+                .orElseThrow(() -> new InvalidIDException("Error, booking with id " + booking.getId() + " was not found"));
         return bookingToDetailedBookingDTO(bookingRepository.save(setBookingAttributes(booking, bookingToBeUpdated)));
     }
 
@@ -92,21 +92,19 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<DetailedRoomDTO> findAvailableRooms(FindRoomsDTO findRoomsDTO) {
-        LocalDate startDate = LocalDate.parse(findRoomsDTO.getStartDate());
-        LocalDate endDate = LocalDate.parse(findRoomsDTO.getEndDate());
+
         return roomRepository.findAll().stream()
                 .filter(room -> room.getCapacity() >= findRoomsDTO.getGuests())
-                .filter(room -> isRoomAvailable(room, bookingRepository.findAll(), startDate, endDate))
+                .filter(room -> isRoomAvailable(room, bookingRepository.findAll(), findRoomsDTO.getStartDate(), findRoomsDTO.getEndDate()))
                 .map(roomService::roomToDetailedRoomDTO)
                 .toList();
     }
 
     public boolean isRoomAvailable(Room room, List<Booking> bookings, LocalDate startDate, LocalDate endDate) {
         for (Booking booking : bookings) {
-            if (booking.getRoom().equals(room)) { // Check if the booking is for the given room
-                // Check for overlap
+            if (booking.getRoom().equals(room)) {
                 if (!(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate()))) {
-                    return false; // Room is not available if there is an overlap
+                    return false;
                 }
             }
         }
@@ -128,12 +126,13 @@ public class BookingServiceImpl implements BookingService {
 
     private Booking createAndSetNewBookingAttributes(CustomerBookingDTO bookingDTO){
         Booking bookingToBeCreated = new Booking();
-        bookingToBeCreated.setCreated(LocalDate.now());
         bookingToBeCreated.setCustomer(customerService.getCustomerByEmail(bookingDTO.getCustomerEmail()));
         bookingToBeCreated.setRoom(roomRepository.findById(bookingDTO.getRoomId()).orElse(null));
-        Long maxBookingNumber = bookingRepository.findMaxBookingNumber();
-        Long nextBookingNumber = maxBookingNumber + 1;
-        bookingToBeCreated.setBookingNumber(nextBookingNumber);
+        bookingToBeCreated.setBookingNumber(findAndSetNextBookingNumber(bookingRepository.findMaxBookingNumber()));
         return bookingToBeCreated;
+    }
+
+    private Long findAndSetNextBookingNumber(Long currentMaxBookingNumber){
+        return currentMaxBookingNumber + 1;
     }
 }

@@ -50,6 +50,11 @@ public class Address {
     @OneToOne
     private User lastUpdatedBy;
 
+    @PrePersist
+    protected void onCreate(){
+        this.created = LocalDate.now();
+    }
+
     public Address(String street, String number, String zipCode, String city, String country, LocalDate created){
         this.street = street;
         this.number = number;

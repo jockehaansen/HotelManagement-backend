@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -13,10 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class FindRoomsDTO {
 
-    @NotNull
-    private String startDate;
-    private String endDate;
-    @NotNull
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int guests;
     private String customerEmail;
 }

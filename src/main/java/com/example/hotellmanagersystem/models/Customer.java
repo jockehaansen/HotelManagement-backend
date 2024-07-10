@@ -19,7 +19,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Customer {
 
     @Id
@@ -49,7 +48,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 
@@ -59,6 +57,11 @@ public class Customer {
     @ManyToOne
     //TODO JOINCOLUMN?
     private User lastUpdatedBy;
+
+    @PrePersist
+    protected void onCreate(){
+        this.created = LocalDate.now();
+    }
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, Address address, List<Booking> bookings, LocalDate created) {
         this.firstName = firstName;

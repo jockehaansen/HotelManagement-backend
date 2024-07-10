@@ -34,7 +34,6 @@ public class User {
     @Size(min = 10, message = "Password has to be at least 10 characters")
     private String password;
 
-    @NotNull(message = "Created is required")
     @Basic
     private LocalDate created;
 
@@ -44,6 +43,11 @@ public class User {
     @ManyToOne
     //TODO JOINCOLUMN?
     private User lastUpdatedBy;
+
+    @PrePersist
+    protected void onCreate(){
+        this.created = LocalDate.now();
+    }
 
     //private List<Role> roles;
 

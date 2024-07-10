@@ -37,7 +37,7 @@ public class HotellManagerSystemApplication {
             for (int i = 0; i < 20; i++) {
                 Room room = new Room();
                 room.setRoomNumber(i + 10);
-                room.setBeds(random.nextInt(1,4));
+                room.setCapacity(random.nextInt(1,4));
                 room.setCreated(LocalDate.now());
                 roomRepository.save(room);
             }
@@ -51,7 +51,7 @@ public class HotellManagerSystemApplication {
             customer.setEmail("example@email.com");
             customer.setCreated(LocalDate.now());
             customerRepository.save(customer);
-            Booking booking = new Booking(100L, LocalDate.now(), LocalDate.now().plusDays(2), 2000, LocalDate.now(), customer, roomRepository.findById(1L).orElse(null));
+            Booking booking = new Booking(100L, LocalDate.now(), LocalDate.now().plusDays(2), LocalDate.now(), customer, roomRepository.findById(1L).orElse(null), 2);
             bookingRepository.save(booking);
         };
 

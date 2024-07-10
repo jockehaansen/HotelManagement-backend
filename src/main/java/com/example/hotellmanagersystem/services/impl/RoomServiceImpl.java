@@ -37,7 +37,7 @@ public class RoomServiceImpl implements RoomService {
                 .orElseThrow(() -> new InvalidIDException("Error, room id " + room.getId() + " was not found"));
         if (isRoomAttributesOK(room)) {
             roomToBeUpdated.setRoomNumber(room.getRoomNumber());
-            roomToBeUpdated.setBeds(room.getCapacity());
+            roomToBeUpdated.setCapacity(room.getCapacity());
             roomToBeUpdated.setLastUpdated(LocalDate.now());
             return roomRepository.save(roomToBeUpdated);
         } else {
