@@ -38,7 +38,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public DetailedBookingDTO createBooking(CustomerBookingDTO booking) {
-        //TODO this should return a ConfirmedBookingDTO
         if (!customerRepository.existsByEmail(booking.getCustomerEmail())){
             throw new CustomerNotFoundException("Customer not found");
         }
